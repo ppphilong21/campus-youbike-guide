@@ -1,0 +1,8 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101029: NTU Environment Research Building (臺大環研大樓)
+Name in the YouBike system: YouBike2.0_NTU Environment Research Building / YouBike2.0_臺大環研大樓.
+District: Daan Dist. (大安區). Address: Fanglan Rd & Ln. 155， Sec. 3， Keelung Rd. Intersection (芳蘭路/基隆路三段155巷口).
+Nearest campus places: Swimming Pool (游泳池), about 220 m; 1st Student Dormitory (第一學生宿舍), about 220 m; International House 2 (國際會館二館), about 220 m.
+Nearest campus gate: Back Gate (dormitory side), about 220 m.
+Nearby landmark outside campus: Gong Guan Elementary School (公館國小), about 180 m.

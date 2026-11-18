@@ -1,0 +1,8 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500119051: NTU Parking lot(Motorcycle) (臺大立體機車停車場)
+Name in the YouBike system: YouBike2.0_NTU Parking lot(Motorcycle) / YouBike2.0_臺大立體機車停車場.
+District: NTU Dist (臺大公館校區). Address: Ln. 156， Sec. 3， Keelung Rd. Intersection(North) (基隆路三段/基隆路三段156巷口北側).
+Nearest campus places: TR Building (研揚大樓), about 140 m; Athletic Field (運動場), about 160 m; Basketball Court (籃球場), about 180 m.
+Nearest campus gate: Back Gate (dormitory side), about 330 m.
+Nearby landmark outside campus: NTU Veterinary Hospital (臺大動物醫院), about 120 m.

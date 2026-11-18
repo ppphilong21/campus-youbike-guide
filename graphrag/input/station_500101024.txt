@@ -1,0 +1,8 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101024: NTUST(Main Gate) (臺灣科技大學正門)
+Name in the YouBike system: YouBike2.0_NTUST(Main Gate) / YouBike2.0_臺灣科技大學正門.
+District: Daan Dist. (大安區). Address: No. 43， Sec. 4， Keelung Rd. (基隆路四段43號(臺灣科技大學正門旁小側門靠田徑場)).
+Nearest campus places: Research Building (綜合研究大樓), about 50 m; First Academic Building (第一教學大樓), about 50 m; Auditorium (視聽館), about 70 m.
+Nearest campus gate: Main Gate, about 120 m.
+On the official campus map this station is marked on Keelung Road in front of T1 and RB.

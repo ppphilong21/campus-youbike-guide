@@ -1,0 +1,80 @@
+unit_en,unit_zh,unit_type,building_id,building_map_no,building,aliases
+Office of the President,校長室,office,ad,1,AD,
+Office of the Executive Vice President,副校長室,office,ad,1,AD,
+Secretarial Office,秘書室,office,ad,1,AD,
+Accounting Office,主計室,office,ad,1,AD,
+Personnel Office,人事室,office,ad,1,AD,
+Office of Academic Affairs,教務處,office,ad,1,AD,academic affairs
+Office of General Affairs,總務處,office,ad,1,AD,general affairs
+University Archives,校史室,office,ad,1,AD,
+Office of Student Affairs,學生事務處,office,s,2,S,student affairs|學務處
+Indigenous Students Resource Center,原住民族學生資源中心,center,s,2,S,
+Physical Education Office,體育室,office,gym,3,Gymnasium,
+Health Center,衛生保健組（健康中心）,office,gym,3,Gymnasium,health center|健康中心|衛保組
+Office of Research & Development,研究發展處,office,ib,4,IB,研發處
+Office of International Affairs,國際事務處,office,ib,4,IB,international affairs|國際處|OIA
+Office of Environmental and Safety,環境保護暨安全衛生室,office,ib,4,IB,
+UPTP Project Office,臺巴科技大學專案辦公室,office,ib,4,IB,UPTP
+Continuing Education Center,推廣教育中心,center,ib,4,IB,
+Language Center,語言中心,center,ib,4,IB,language center
+Center for Teaching and Learning Development,教學發展中心,center,ib,4,IB,
+General Academic Affairs Division,教務處綜合業務組,office,ib,4,IB,
+Student Learning Center Learning Discussion Rooms,學生學習中心學習討論室,facility,ib,4,IB,learning discussion rooms
+Graduate Institute of Finance,財務金融研究所,graduate_institute,ib,4,IB,finance|財金所
+Graduate Institute of Color and Illumination Technology,色彩與照明科技研究所,graduate_institute,ib,4,IB,color and illumination|色彩所
+"IB Conference Rooms (IB101, IB201, IB202, IB301, IB302)",國際大樓會議室,facility,ib,4,IB,IB101|IB201|IB202|IB301|IB302
+IB Exhibition Area A and B,IB展覽會場A區/B區,facility,ib,4,IB,IB exhibition area
+Property Management Division,總務處保管組,office,t3,5,T3,
+Documentation Division,總務處檔案室,office,t3,5,T3,
+Advanced Membrane Materials Research Center,尖端薄膜材料研究中心,center,ia,6,IA,
+IGS & NTUST AI GAME Research Center,鈊象臺科AI遊戲研發中心,center,ia,6,IA,AI game research center
+Digital Development Research Center,數位發展研究中心,center,ia,6,IA,
+Taiwan Tech Alumni Association,國立臺灣科技大學校友總會,association,ia,6,IA,alumni association|校友總會
+Office of Industry-Academia Collaboration,產學營運處,office,ia,6,IA,產學處
+Business Incubator Center,創新育成中心,center,ia,6,IA,incubator
+Enterprise Service Center,企業服務中心,center,ia,6,IA,
+Intellectual Property and Technology Transfer Center,智財技轉中心,center,ia,6,IA,
+Taiwan Tech GLORIA,國際產學聯盟推動辦公室,office,ia,6,IA,GLORIA
+Wireless Communication and Electromagnetic Compatibility Research Center,無線通訊與電磁相容技術研發中心,center,ia,6,IA,
+Center for IoT Innovation,物聯網創新中心,center,ia,6,IA,IoT center
+Center for General Education,通識教育中心,center,ia,6,IA,general education|通識中心
+Taiwan Information Security Center (TWISC),資通安全研究與教學中心,center,ia,6,IA,TWISC
+Center for Sustainability Development and Institutional Research,永續發展與校務研究中心,center,ia,6,IA,
+College of Engineering,工程學院,college,t1,7,T1,
+Graduate Institute of Automation and Control,自動化及控制研究所,graduate_institute,t1,7,T1,automation and control|自控所
+Department of Mechanical Engineering,機械工程系,department,e1,8,E1,mechanical engineering|機械系
+Department of Materials Science and Engineering,材料科學與工程系,department,e1,8,E1,materials science|材料系
+Department of Chemical Engineering,化學工程系,department,e2,9,E2,chemical engineering|化工系
+Department of Civil and Construction Engineering,營建工程系,department,e2,9,E2,civil engineering|construction engineering|營建系
+College of Management,管理學院,college,ma,10,MA,management
+Department of Industrial Management,工業管理系,department,ma,10,MA,industrial management|工管系
+Department of Business Administration,企業管理系,department,ma,10,MA,business administration|企管系
+Department of Information Management,資訊管理系,department,ma,10,MA,information management|資管系
+Graduate Institute of Management,管理研究所,graduate_institute,ma,10,MA,管研所
+Department of Electronic Engineering,電子工程系,department,ee,11,EE,electronic engineering|電子系
+Department of Electrical Engineering,電機工程系,department,ee,11,EE,electrical engineering|電機系
+Graduate Institute of Electro-Optical Engineering,光電工程研究所,graduate_institute,ee,11,EE,electro-optical|光電所
+College of Electrical Engineering and Computer Science,電資學院,college,t2,12,T2,
+College of Design,設計學院,college,rb,13,RB,design
+Department of Architecture,建築系,department,rb,13,RB,architecture
+Department of Design,設計系,department,rb,13,RB,
+Computer Center,電子計算機中心,center,rb,13,RB,computer center|計中
+RB-101 Conference Room,RB101會議室,facility,rb,13,RB,RB101|RB-101
+RB-102 International Conference Room,國際會議廳,facility,rb,13,RB,RB102|RB-102|international conference room
+RB-105 Lecture Hall,演講廳,facility,rb,13,RB,RB105|RB-105|lecture hall
+College of Liberal Arts and Social Sciences,人文社會學院,college,t4,14,T4,liberal arts
+Department of Applied Foreign Languages,應用外語系,department,t4,14,T4,applied foreign languages|應外系
+Graduate Institute of Digital Learning and Education,數位學習與教育研究所,graduate_institute,t4,14,T4,digital learning|數位所
+Department of Humanities and Social Sciences,人文社會學科,department,t4,14,T4,humanities
+Teacher Education Center,師資培育中心,center,t4,14,T4,teacher education|師培中心
+Department of Computer Science and Information Engineering,資訊工程系,department,t4,14,T4,CSIE|computer science|資工系|資工
+College of Applied Sciences,應用科技學院,college,tr,15,TR,applied sciences
+Graduate Institute of Applied Science and Technology,應用科技研究所,graduate_institute,tr,15,TR,
+Graduate Institute of Biomedical Engineering,醫學工程研究所,graduate_institute,tr,15,TR,biomedical engineering|醫工所
+Graduate Institute of Patent,專利研究所,graduate_institute,tr,15,TR,patent|專利所
+Bachelor's Program of Applied Science and Technology,應用科技學士學位學程,program,tr,15,TR,
+Inter-Disciplinary Bachelor's Program,不分系學士班,program,tr,15,TR,
+Graduate Institute of Technology Management,科技管理研究所,graduate_institute,tr,15,TR,technology management|科管所
+Hsinchu Campus Office,新竹分部辦公室,office,tr,15,TR,Hsinchu campus
+Industry-Academia Innovation College,產學創新學院,college,haoyang,16,Haoyang Experimental Building,
+Taiwan High Speed 3D Printing Research Center,臺灣高速3D列印研究中心,center,haoyang,16,Haoyang Experimental Building,3D printing

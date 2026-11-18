@@ -1,0 +1,14 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+TR Building (研揚大樓)
+Type: academic building, number 15 on the campus map, building code TR.
+Location: TR is a narrow building along Lane 155 at the Keelung Road corner of campus, beside the Athletic Field. The Lane 155 parking lot and a security post are at its end, and the NTU Veterinary Hospital is across Lane 155.
+Units in TR Building:
+- College of Applied Sciences (應用科技學院)
+- Graduate Institute of Applied Science and Technology (應用科技研究所)
+- Graduate Institute of Biomedical Engineering (醫學工程研究所)
+- Graduate Institute of Patent (專利研究所)
+- Bachelor's Program of Applied Science and Technology (應用科技學士學位學程)
+- Inter-Disciplinary Bachelor's Program (不分系學士班)
+- Graduate Institute of Technology Management (科技管理研究所)
+- Hsinchu Campus Office (新竹分部辦公室)

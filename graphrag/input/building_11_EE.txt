@@ -1,0 +1,9 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+EE Building (電資館)
+Type: academic building, number 11 on the campus map, building code EE.
+Location: EE is the long building along the Alley 68 side of campus, next to the Haoyang Experimental Building and the Back Gate. It forms the back edge of the EE-MA-T2 complex.
+Units in EE Building:
+- Department of Electronic Engineering (電子工程系)
+- Department of Electrical Engineering (電機工程系)
+- Graduate Institute of Electro-Optical Engineering (光電工程研究所)

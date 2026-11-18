@@ -1,0 +1,27 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Sports grounds at Taiwan Tech
+
+Swimming Pool (游泳池)
+Type: sports facility, number 19 on the campus map.
+Location: The Swimming Pool is an outdoor pool in the back corner of campus on the Lane 155 side, next to the Gymnasium and International House 2. The Recycling Field is behind it.
+
+Athletic Field (運動場)
+Type: sports facility.
+Location: The Athletic Field with its running track is at the Keelung Road and Lane 155 corner of campus, between TR and T1. The Ceremonial Stand is on its edge facing the Basketball Court.
+
+Ceremonial Stand (司令台)
+Type: sports facility.
+Location: The Ceremonial Stand is at the edge of the Athletic Field, facing the Basketball and Tennis Courts.
+
+Basketball Court (籃球場)
+Type: sports facility.
+Location: The Basketball Court is between the Athletic Field and the Volleyball Court, next to the Tennis Court.
+
+Tennis Court (網球場)
+Type: sports facility.
+Location: The Tennis Court is next to the Basketball Court, between the Athletic Field and T4.
+
+Volleyball Court (排球場)
+Type: sports facility.
+Location: The Volleyball Court is in front of the Gymnasium, between the IA building and the Student Activity Center.

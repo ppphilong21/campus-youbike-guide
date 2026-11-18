@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500105070: NTNU Gongguan Campus (Student Dorm 2) (師大公館校區學二舍)
+Name in the YouBike system: YouBike2.0_NTNU Gongguan Campus (Student Dorm 2) / YouBike2.0_師大公館校區學二舍.
+District: Wenshan Dist (文山區). Address: NTNU Gongguan Campus (Student Dorm 2) (臺灣師範大學學二舍西側人行道).
+Nearest campus places: Second Academic Building (第二教學大樓), about 800 m; Engineering Building 2 (工程二館), about 820 m; International Building (國際大樓), about 820 m.
+Nearest campus gate: Back Gate (Haoyang side), about 890 m.

@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101038: NTU College of social Sciences Building (臺大社科院圖書館前)
+Name in the YouBike system: YouBike2.0_NTU College of social Sciences Building / YouBike2.0_臺大社科院圖書館前.
+District: Daan Dist. (大安區). Address: Xinhai Fuxing Rd. Intersection (Southwest) (辛亥路與復興南路口西南側).
+Nearest campus places: TR Building (研揚大樓), about 670 m; Athletic Field (運動場), about 700 m; Basketball Court (籃球場), about 720 m.
+Nearest campus gate: Main Gate, about 840 m.

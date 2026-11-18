@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101032: NTU 1st Men's Dorm (臺大男一舍前)
+Name in the YouBike system: YouBike2.0_NTU 1st Men's Dorm / YouBike2.0_臺大男一舍前.
+District: Daan Dist. (大安區). Address: No. 50， Changxing St.(Northwest) (長興街50號西北側).
+Nearest campus places: IA Building (醫揚大樓), about 280 m; TR Building (研揚大樓), about 290 m; IA Cafeteria (醫揚餐廳), about 290 m.
+Nearest campus gate: Back Gate (dormitory side), about 410 m.

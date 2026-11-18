@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101176: Fanglan (芳蘭山莊)
+Name in the YouBike system: YouBike2.0_Fanglan / YouBike2.0_芳蘭山莊.
+District: Daan Dist. (大安區). Address: No. 148， Ln. 155， Sec. 3， Keelung Rd. (基隆路三段155巷148號).
+Nearest campus places: Swimming Pool (游泳池), about 460 m; International House 2 (國際會館二館), about 490 m; Gymnasium (體育館), about 500 m.
+Nearest campus gate: Back Gate (dormitory side), about 490 m.

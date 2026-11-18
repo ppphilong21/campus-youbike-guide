@@ -1,0 +1,8 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Haoyang Experimental Building (浩揚實驗大樓)
+Type: academic building, number 16 on the campus map.
+Location: The Haoyang Experimental Building is a small building at the Back Gate on Alley 68, next to the EE building. A GO Station battery swap point and a scooter parking area are beside it, and the official map shows a YouBike 2.0 station just outside the Back Gate.
+Units in Haoyang Experimental Building:
+- Industry-Academia Innovation College (產學創新學院)
+- Taiwan High Speed 3D Printing Research Center (臺灣高速3D列印研究中心)

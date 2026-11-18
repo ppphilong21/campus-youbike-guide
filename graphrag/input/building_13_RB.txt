@@ -1,0 +1,13 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Research Building (綜合研究大樓)
+Type: academic building, number 13 on the campus map, building code RB.
+Location: RB is on the Keelung Road front of campus, on the Lane 155 side of the Main Gate, between T1 and the Library. The official map shows a scooter parking area and a YouBike 2.0 station on Keelung Road in front of it.
+Units in Research Building:
+- College of Design (設計學院)
+- Department of Architecture (建築系)
+- Department of Design (設計系)
+- Computer Center (電子計算機中心)
+- RB-101 Conference Room (RB101會議室)
+- RB-102 International Conference Room (國際會議廳)
+- RB-105 Lecture Hall (演講廳)

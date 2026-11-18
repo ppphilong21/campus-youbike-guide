@@ -1,0 +1,9 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101027: NTUST(Back Gate) (臺灣科技大學後門)
+Name in the YouBike system: YouBike2.0_NTUST(Back Gate) / YouBike2.0_臺灣科技大學後門.
+District: Daan Dist. (大安區). Address: Aly. 68， Ln. 41， Sec. 4， Keelung Rd. (基隆路四段41巷68弄臺科帆船大樓旁).
+Nearest campus places: Haoyang Experimental Building (浩揚實驗大樓), about 20 m; EE Building (電資館), about 20 m; 3rd Faculty Dormitory (職務三舍), about 30 m.
+Nearest campus gate: Back Gate (Haoyang side), about 40 m.
+Nearby landmark outside campus: Military Base (軍營), about 80 m.
+On the official campus map this station is marked outside the Back Gate on Alley 68.

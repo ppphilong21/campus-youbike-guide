@@ -1,0 +1,39 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Student and faculty dormitories at Taiwan Tech
+
+1st Student Dormitory (第一學生宿舍)
+Type: dormitory, number 26 on the campus map.
+Location: The 1st Student Dormitory is on the Alley 68 side of campus, between the dormitory-side Back Gate and International House 1, which is attached to it.
+
+2nd Student Dormitory (第二學生宿舍)
+Type: dormitory, number 27 on the campus map.
+Location: The 2nd Student Dormitory is on the Alley 68 side of campus, between the 3rd Student Dormitory and the Back Gate near the Haoyang Experimental Building.
+
+3rd Student Dormitory (第三學生宿舍)
+Type: dormitory, number 28 on the campus map.
+Location: The 3rd Student Dormitory is on the Alley 68 side of campus, between International House 1 and the 2nd Student Dormitory.
+
+1st Faculty Dormitory (職務一舍)
+Type: dormitory, number 29 on the campus map.
+Location: The 1st Faculty Dormitory is outside the campus wall, across Alley 68 from the student dormitories.
+
+2nd Faculty Dormitory (職務二舍)
+Type: dormitory, number 30 on the campus map.
+Location: The 2nd Faculty Dormitory is outside the campus wall across Alley 68, between the 1st and 3rd Faculty Dormitories.
+
+3rd Faculty Dormitory (職務三舍)
+Type: dormitory, number 31 on the campus map.
+Location: The 3rd Faculty Dormitory is outside the campus wall across Alley 68, opposite the Back Gate near the Haoyang Experimental Building.
+
+International House 1 (國際會館一館)
+Type: dormitory, number 32 on the campus map.
+Location: International House 1 is attached to the 1st Student Dormitory on the Alley 68 side of campus, next to the 3rd Student Dormitory.
+
+International House 2 (國際會館二館)
+Type: dormitory, number 33 on the campus map.
+Location: International House 2 is near the dormitory-side Back Gate, between the Swimming Pool and the T3 building.
+
+Student dormitory area (學生宿舍區)
+Type: dormitory.
+Location: The student dormitories (the 1st, 2nd and 3rd Student Dormitories and International House 1) form a row along the Alley 68 side of campus, between the two back gates.

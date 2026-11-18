@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500119097: NTU The College of Liberal Arts (臺大人文館)
+Name in the YouBike system: YouBike2.0_NTU The College of Liberal Arts / YouBike2.0_臺大人文館.
+District: NTU Dist (臺大公館校區). Address: NTU The College of Liberal Arts (Northeast) (臺大人文館東北側).
+Nearest campus places: International Building (國際大樓), about 790 m; Research Building (綜合研究大樓), about 810 m; Library (圖書館), about 820 m.
+Nearest campus gate: Main Gate, about 770 m.

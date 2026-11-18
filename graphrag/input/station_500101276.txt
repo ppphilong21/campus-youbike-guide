@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101276: Roosevelt Rd. & Xinsheng S. Rd. Intersection (羅斯福新生南路口)
+Name in the YouBike system: YouBike2.0_Roosevelt Rd. & Xinsheng S. Rd. Intersection / YouBike2.0_羅斯福新生南路口.
+District: Daan Dist. (大安區). Address: Sec. 4， Roosevelt Rd. & Sec. 3， Xinsheng S. Rd. Intersection (Southeast) (羅斯福路四段/新生南路三段(東北側)).
+Nearest campus places: International Building (國際大樓), about 780 m; Library (圖書館), about 850 m; Engineering Building 2 (工程二館), about 850 m.
+Nearest campus gate: Main Gate, about 790 m.

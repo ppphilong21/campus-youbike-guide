@@ -1,0 +1,9 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101026: Gongguan Park (公館公園)
+Name in the YouBike system: YouBike2.0_Gongguan Park / YouBike2.0_公館公園.
+District: Daan Dist. (大安區). Address: Ln. 113， Sec. 4， Roosevelt Rd. & Ln. 41， Sec. 4， Keelung Rd. Intersection (羅斯福路四段113巷基隆路四段41巷口).
+Nearest campus places: Second Academic Building (第二教學大樓), about 80 m; EE Building (電資館), about 100 m; T2 Cafeteria (第二教學大樓餐廳), about 110 m.
+Nearest campus gate: Back Gate (Haoyang side), about 150 m.
+Nearby landmark outside campus: Taipei Municipal Minzu Junior High School (民族國中), about 30 m.
+On the official campus map this station is marked on Lane 41, opposite the EE and T2 buildings.

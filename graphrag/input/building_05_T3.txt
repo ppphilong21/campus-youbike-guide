@@ -1,0 +1,8 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Third Academic Building (第三教學大樓)
+Type: administration building, number 5 on the campus map, building code T3.
+Location: T3 is a small building towards the Alley 68 side, between International House 2 and the E1 building and behind the Student Activity Center. The dormitory-side Back Gate is just beyond it.
+Units in Third Academic Building:
+- Property Management Division (總務處保管組)
+- Documentation Division (總務處檔案室)

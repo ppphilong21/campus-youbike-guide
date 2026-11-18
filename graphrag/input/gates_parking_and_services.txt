@@ -1,0 +1,67 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Gates, parking, shuttle buses and services at Taiwan Tech
+
+Graduate Student Parking Lot (碩博士停車場)
+Type: parking, number 25 on the campus map.
+Location: The graduate student parking lot is outside the campus wall at the corner of Alley 68 and Lane 41, next to a military base. The map marks it as car parking.
+
+Main Gate (大門)
+Type: campus gate.
+Location: The Main Gate is on Keelung Road Section 4, between the Library and the IB building. A security post stands beside it.
+
+Back Gate (Haoyang side) (後門)
+Type: campus gate.
+Location: The Back Gate on Alley 68 is between the 2nd Student Dormitory and the Haoyang Experimental Building. The official map shows a YouBike 2.0 station just outside it.
+
+Back Gate (dormitory side) (後門（宿舍側）)
+Type: campus gate.
+Location: A second Back Gate is near the 1st Student Dormitory and International House 2, at the end of the path that passes T3.
+
+Underground Parking Entrance (地下停車場入口)
+Type: parking.
+Location: The entrance to the underground car park is on the Lane 41 and Lane 73 side of campus, between E2 and the IB building, next to a security post.
+
+Lane 155 Parking Lot (停車場（研揚大樓旁）)
+Type: parking.
+Location: A parking lot is on the Lane 155 side next to the TR building, with a security post at its entrance. The map shows car and scooter parking signs on Lane 155 here.
+
+Scooter Parking (Keelung Road front) (機車停車（基隆路）)
+Type: parking.
+Location: The map shows a scooter parking area on Keelung Road in front of the RB building.
+
+Scooter Parking (Back Gate) (機車停車（後門）)
+Type: parking.
+Location: The map shows a scooter parking area near the Back Gate, beside the GO Station.
+
+Car Parking (Lane 41 side) (汽車停車（基隆路四段41巷）)
+Type: parking.
+Location: The map shows a car park sign on the Lane 41 side at the end of E2, near the underground parking entrance.
+
+GO Station (GoStation 換電站)
+Type: transport point.
+Location: A GO Station battery swap point for electric scooters is beside the Haoyang Experimental Building near the Back Gate.
+
+Shuttle Bus Stop to Huaxia Campus (華夏校區交通接駁車)
+Type: transport point.
+Location: The shuttle bus to the Huaxia campus stops in front of the Library, just inside the Main Gate.
+
+Shuttle Bus Stop to NTU and NTNU (三校接駁車)
+Type: transport point.
+Location: The shuttle bus to NTU and NTNU stops on the Lane 73 side, next to the IB building and the underground parking entrance.
+
+Security Post (Main Gate) (警衛室（大門）)
+Type: security post.
+Location: A security post stands at the Main Gate.
+
+Security Post (Lane 155 parking lot) (警衛室（研揚停車場）)
+Type: security post.
+Location: A security post stands at the entrance of the Lane 155 parking lot next to TR.
+
+Security Post (Lane 41 side) (警衛室（41巷側）)
+Type: security post.
+Location: A security post stands on the Lane 41 side at the end of E2, near the underground parking entrance.
+
+Recycling Field (資源回收場)
+Type: campus service.
+Location: The Recycling Field is in the back corner of campus on the Lane 155 side, behind the Swimming Pool.

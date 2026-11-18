@@ -1,0 +1,6 @@
+label,place_id,map_x,map_y,lat,lng,source,how_to_get
+athletic_field_centre,athletic_field,460,1196,25.014753995320838,121.5422711086574,,Google Maps satellite view: right click the centre of the running track
+swimming_pool_centre,pool,353,670,25.0138317589918,121.54367008686243,,Google Maps satellite view: right click the centre of the outdoor pool
+ee_building_centre,ee,1402,567,25.011897320324188,121.54143364407743,,Google Maps: right click the middle of the long EE building along Alley 68
+ad_building_centre,ad,1137,1041,25.013224211768758,121.54112693431344,,Google Maps: right click the middle of the AD building straight in from the Main Gate
+youbike_back_gate,yb_back,1360,478,25.01182,121.54165,OpenStreetMap node 8256951697 v14,Already filled from OpenStreetMap; delete this row if it disagrees with the others

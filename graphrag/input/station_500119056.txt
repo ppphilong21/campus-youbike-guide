@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500119056: NTU New Agricultural Chemistry Building(West) (臺大農化新館西側)
+Name in the YouBike system: YouBike2.0_NTU New Agricultural Chemistry Building(West) / YouBike2.0_臺大農化新館西側.
+District: NTU Dist (臺大公館校區). Address: NTU Department of Biochemical Science and Technology(West) (臺大生化科技學系西側).
+Nearest campus places: International Building (國際大樓), about 600 m; Research Building (綜合研究大樓), about 650 m; Library (圖書館), about 660 m.
+Nearest campus gate: Main Gate, about 600 m.

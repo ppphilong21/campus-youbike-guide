@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500119093: NTU LIxian Hall (West) (臺大禮賢樓西側)
+Name in the YouBike system: YouBike2.0_NTU LIxian Hall (West) / YouBike2.0_臺大禮賢樓西側.
+District: NTU Dist (臺大公館校區). Address: NTU LIxian Hall (West) (臺大禮賢樓西側空地).
+Nearest campus places: International Building (國際大樓), about 310 m; Library (圖書館), about 380 m; Administration Building (行政大樓), about 380 m.
+Nearest campus gate: Main Gate, about 310 m.

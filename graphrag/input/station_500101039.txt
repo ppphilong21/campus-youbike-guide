@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101039: NTU Language Training & Testing Center (臺大法人語言訓練中心前)
+Name in the YouBike system: YouBike2.0_NTU Language Training & Testing Center / YouBike2.0_臺大法人語言訓練中心前.
+District: Daan Dist. (大安區). Address: NTU Language Training & Testing Center(North) (臺大法人語言訓練中心北側).
+Nearest campus places: TR Building (研揚大樓), about 710 m; Athletic Field (運動場), about 720 m; Ceremonial Stand (司令台), about 740 m.
+Nearest campus gate: Main Gate, about 810 m.

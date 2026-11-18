@@ -1,0 +1,19 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+International Building (國際大樓)
+Type: administration building, number 4 on the campus map, building code IB.
+Location: The International Building (IB) is a large building on Keelung Road at the corner with Lane 73, to the right of the Main Gate when facing the campus. The entrance to the underground car park and the shuttle bus stop for NTU and NTNU are on its Lane 73 side. The official map marks a YouBike 2.0 station near this corner and a YouBike 1.0 station on Keelung Road in front of the building.
+Units in International Building:
+- Office of Research & Development (研究發展處)
+- Office of International Affairs (國際事務處)
+- Office of Environmental and Safety (環境保護暨安全衛生室)
+- UPTP Project Office (臺巴科技大學專案辦公室)
+- Continuing Education Center (推廣教育中心)
+- Language Center (語言中心)
+- Center for Teaching and Learning Development (教學發展中心)
+- General Academic Affairs Division (教務處綜合業務組)
+- Student Learning Center Learning Discussion Rooms (學生學習中心學習討論室)
+- Graduate Institute of Finance (財務金融研究所)
+- Graduate Institute of Color and Illumination Technology (色彩與照明科技研究所)
+- IB Conference Rooms (IB101, IB201, IB202, IB301, IB302) (國際大樓會議室)
+- IB Exhibition Area A and B (IB展覽會場A區/B區)

@@ -1,0 +1,8 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500101034: NTU Veterinary Hospital (臺大動物醫院前)
+Name in the YouBike system: YouBike2.0_NTU Veterinary Hospital / YouBike2.0_臺大動物醫院前.
+District: Daan Dist. (大安區). Address: Ln. 155， Sec. 3， Keelung Rd. Intersection (基隆路三段155巷/基隆路四段口).
+Nearest campus places: TR Building (研揚大樓), about 90 m; Athletic Field (運動場), about 130 m; Basketball Court (籃球場), about 130 m.
+Nearest campus gate: Back Gate (dormitory side), about 280 m.
+Nearby landmark outside campus: NTU Veterinary Hospital (臺大動物醫院), about 60 m.

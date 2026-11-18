@@ -1,0 +1,20 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+IA Building (醫揚大樓)
+Type: administration building, number 6 on the campus map, building code IA.
+Location: The IA building is a narrow building along Lane 155 (Keelung Road Section 3), between the Gymnasium and the Lane 155 parking area. The IA Cafeteria is beside it, and the NTU Cancer Center is across Lane 155.
+Units in IA Building:
+- Advanced Membrane Materials Research Center (尖端薄膜材料研究中心)
+- IGS & NTUST AI GAME Research Center (鈊象臺科AI遊戲研發中心)
+- Digital Development Research Center (數位發展研究中心)
+- Taiwan Tech Alumni Association (國立臺灣科技大學校友總會)
+- Office of Industry-Academia Collaboration (產學營運處)
+- Business Incubator Center (創新育成中心)
+- Enterprise Service Center (企業服務中心)
+- Intellectual Property and Technology Transfer Center (智財技轉中心)
+- Taiwan Tech GLORIA (國際產學聯盟推動辦公室)
+- Wireless Communication and Electromagnetic Compatibility Research Center (無線通訊與電磁相容技術研發中心)
+- Center for IoT Innovation (物聯網創新中心)
+- Center for General Education (通識教育中心)
+- Taiwan Information Security Center (TWISC) (資通安全研究與教學中心)
+- Center for Sustainability Development and Institutional Research (永續發展與校務研究中心)

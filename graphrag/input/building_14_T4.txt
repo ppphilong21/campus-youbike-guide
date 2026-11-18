@@ -1,0 +1,12 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Fourth Academic Building (第四教學大樓)
+Type: academic building, number 14 on the campus map, building code T4.
+Location: T4 is a long building in the front half of campus, between the Tennis Court and the AD building. It stands in front of E1, and the Auditorium and RB are between T4 and Keelung Road.
+Units in Fourth Academic Building:
+- College of Liberal Arts and Social Sciences (人文社會學院)
+- Department of Applied Foreign Languages (應用外語系)
+- Graduate Institute of Digital Learning and Education (數位學習與教育研究所)
+- Department of Humanities and Social Sciences (人文社會學科)
+- Teacher Education Center (師資培育中心)
+- Department of Computer Science and Information Engineering (資訊工程系)

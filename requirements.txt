@@ -1,0 +1,6 @@
+# Tested on 2026-11-16 with Python 3.13. Use Python 3.11, 3.12 or 3.13 (graphrag needs >=3.11,<3.14).
+graphrag==3.3.0
+streamlit>=1.40
+requests
+pandas
+numpy

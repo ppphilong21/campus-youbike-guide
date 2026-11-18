@@ -1,0 +1,7 @@
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+
+YouBike station 500106063: Treasure Hill Guanyin Temple (寶藏巖觀音亭)
+Name in the YouBike system: YouBike2.0_Treasure Hill Guanyin Temple / YouBike2.0_寶藏巖觀音亭.
+District: Zhongzheng Dist (中正區). Address: No. 23， Ln. 230， Sec. 3， Tingzhou Rd. (汀州路三段230巷23號).
+Nearest campus places: International Building (國際大樓), about 790 m; Second Academic Building (第二教學大樓), about 810 m; Engineering Building 2 (工程二館), about 810 m.
+Nearest campus gate: Main Gate, about 850 m.

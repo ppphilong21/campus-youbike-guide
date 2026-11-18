@@ -1,0 +1,11 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Management Building (管理大樓)
+Type: academic building, number 10 on the campus map, building code MA.
+Location: MA is part of the EE-MA-T2 complex on the Lane 41 side of campus. It is the wing facing the central lawn, connected to EE at the Alley 68 end and to T2 through a middle link.
+Units in Management Building:
+- College of Management (管理學院)
+- Department of Industrial Management (工業管理系)
+- Department of Business Administration (企業管理系)
+- Department of Information Management (資訊管理系)
+- Graduate Institute of Management (管理研究所)

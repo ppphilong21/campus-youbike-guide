@@ -1,0 +1,23 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Cafeterias and the Post Office at Taiwan Tech
+
+Second Cafeteria of the Student Center (活動中心第二餐廳)
+Type: cafeteria, number 20 on the campus map.
+Location: The Second Cafeteria is on the side of the Student Activity Center that faces E1, next to the Post Office.
+
+Post Office (郵局)
+Type: public facility, number 21 on the campus map.
+Location: The Post Office is on the side of the Student Activity Center that faces E1, between the Second Cafeteria and the First Cafeteria.
+
+First Cafeteria of the Student Center (活動中心第一餐廳)
+Type: cafeteria, number 22 on the campus map.
+Location: The First Cafeteria is at the front corner of the Student Activity Center, near the Volleyball Court and on the path towards T4.
+
+IA Cafeteria (醫揚餐廳)
+Type: cafeteria, number 23 on the campus map.
+Location: The IA Cafeteria is beside the IA building, next to the Gymnasium on the Lane 155 side.
+
+T2 Cafeteria (第二教學大樓餐廳)
+Type: cafeteria, number 24 on the campus map.
+Location: The T2 Cafeteria is in the courtyard of the EE-MA-T2 complex, between MA and T2.

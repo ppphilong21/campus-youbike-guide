@@ -1,0 +1,8 @@
+Source: Official Taiwan Tech campus layout map (國立臺灣科技大學校園平面配置圖, Layout of Taiwan Tech), read by the project team on 2026-11-15.
+
+Gymnasium (體育館)
+Type: sports facility, number 3 on the campus map.
+Location: The Gymnasium is on the Lane 155 side of campus, between the Swimming Pool and the Volleyball Court. The IA building runs along its Lane 155 edge and the Student Activity Center is next to it. The Health Center is in the corner of the gymnasium nearest the Volleyball Court.
+Units in Gymnasium:
+- Physical Education Office (體育室)
+- Health Center (衛生保健組（健康中心）)
