@@ -1,4 +1,4 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
 
 YouBike station 500105061: National Taiwan Normal University Gongguan Campus_1 (師範大學公館校區_1)
 Name in the YouBike system: YouBike2.0_National Taiwan Normal University Gongguan Campus_1 / YouBike2.0_師範大學公館校區_1.

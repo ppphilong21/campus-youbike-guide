@@ -1,0 +1,11 @@
+Source: YouBike Standard Membership Agreement (https://en.youbike.com.tw/region/main/terms) and Taipei City FAQ page (https://en.youbike.com.tw/region/taipei/faq/), retrieved 2026-11-18. Summary written by the project team.
+
+When a YouBike station is full or has no bikes
+
+YouBike does not guarantee that bikes or empty docks are available at any station (Membership Agreement, Article 5.1).
+
+Station full when returning: if there is no empty dock, use the "full-station extra-time" function in the YouBike app. It gives free extra time to ride to a nearby station or to wait at the same station for a dock to become free (Article 5.1).
+
+Faulty bike: if a bike develops a fault within five minutes of renting, return it to the original station and no rental fee is charged. If the original station is full during such a return, contact customer service (Article 5.4.11).
+
+The Taipei City FAQ also covers what to do when a station has no bikes to rent and when a YouBike 2.0 station has no empty dock for returning.

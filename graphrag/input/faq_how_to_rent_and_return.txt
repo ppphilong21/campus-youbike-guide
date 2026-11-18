@@ -1,0 +1,29 @@
+Source: YouBike official website, "For Members" page (https://en.youbike.com.tw/region/i/rent-way/member) and "For One-Time Users" page (https://en.youbike.com.tw/region/i/rent-way/single), retrieved 2026-11-18. Both pages sit in the Taichung section of the site and describe the YouBike 2.0 bike and dock, the same system used in Taipei. Summary written by the project team.
+
+How to rent and return a YouBike 2.0
+
+Members can rent with a registered IC card or with a QR code in the YouBike app. Renting by QR code needs a credit card or e-payment linked in the app. Before renting, check the bike and do not rent it if anything looks abnormal (Membership Agreement, Article 5.4.11).
+
+Renting with an IC card:
+1. Press the green "Rent via IC Card" button on the bike's screen.
+2. Tap the IC card on the sensor.
+3. When the screen shows "Pull the bike backwards", hold the handlebars with both hands and pull the bike back to release it.
+
+Returning with an IC card:
+1. Align the bike's tyres with the wheel alignment groove of an empty dock.
+2. Insert the lock into the slot.
+3. Check that the screen says "Tap the IC Card".
+4. Tap the IC card on the reader. The screen shows the charge and the remaining balance when the return is complete.
+
+Renting with a QR code:
+1. Press the orange "Rent via QR Code" button on the bike's screen.
+2. In the YouBike app, press "Scan QR Code" at the bottom of the home screen and scan the code on the bike's screen. If scanning fails in bright light, enter the verification code instead.
+3. When the screen shows "Pull the bike backwards", hold the handlebars with both hands and pull the bike back.
+
+Returning after a QR code rental:
+1. Check the app for the return instructions.
+2. Align the tyres with the wheel alignment groove.
+3. Insert the lock into the slot.
+4. A "Thank You" screen confirms the return.
+
+One-time users (single rental) rent and return the same way as a QR code rental, after activating Single Rental in the app. See the file on foreign visitors and one-time users.

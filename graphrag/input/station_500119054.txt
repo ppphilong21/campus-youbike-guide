@@ -1,4 +1,4 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-17. Distances are straight-line distances computed by the project team from campus map coordinates.
+Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
 
 YouBike station 500119054: NTU Dept. of Psychology (South Hall) (臺大心理系館南側)
 Name in the YouBike system: YouBike2.0_NTU Dept. of Psychology (South Hall) / YouBike2.0_臺大心理系館南側.

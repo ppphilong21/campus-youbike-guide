@@ -1,0 +1,15 @@
+Source: YouBike Standard Membership Agreement (https://en.youbike.com.tw/region/main/terms); "For Members" page (https://en.youbike.com.tw/region/i/rent-way/member); Taipei City rates page (https://en.youbike.com.tw/region/taipei/rate); Taipei City FAQ page (https://en.youbike.com.tw/region/taipei/faq/); insurance page (https://en.youbike.com.tw/region/i/insurance); all retrieved 2026-11-18. Summary written by the project team.
+
+YouBike membership and payment
+
+Registration: members can register on the YouBike website, at a service center, at a kiosk or in the official YouBike app. Registration accepts a National ID number, an ARC (residence certificate) number or a passport number (Membership Agreement, Article 2.1). Membership starts when registration is completed (Article 5.2).
+
+Payment tools: rentals are paid with a registered electronic stored-value card (IC card) or by mobile payment (Article 3 and Article 5.6). The Taipei City FAQ lists the payment tools for YouBike 2.0 as IC card, credit card and e-payment, and refers to IC cards such as EasyCard and iPass. Renting by QR code needs a credit card or e-payment linked in the YouBike app.
+
+Limits: only one bike may be rented at a time with each card or payment account (Article 5.6). One account can link up to five IC cards.
+
+Discounts in Taipei City: YouBike 2.0 can be used with TPASS, the Taipei City senior card and the Taipei City charity card. Since 28 February 2024, Taipei City has given members a NT$10 subsidy per rental within the city.
+
+Insurance when registering: a new member's first IC card is enrolled in public bicycle injury insurance automatically, with no premium. The second to fifth IC cards, and the cards of existing members, must be registered for insurance in the app or on the website by entering the required personal information.
+
+Membership cannot be transferred to another person, and a member must not lend their card, account or bike to someone else (Articles 7.7 and 10.3).

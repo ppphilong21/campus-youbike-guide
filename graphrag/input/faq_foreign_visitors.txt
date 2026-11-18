@@ -1,0 +1,19 @@
+Source: YouBike Standard Membership Agreement (https://en.youbike.com.tw/region/main/terms); "For One-Time Users" page (https://en.youbike.com.tw/region/i/rent-way/single); Taipei City rates page (https://en.youbike.com.tw/region/taipei/rate); Taipei City FAQ page (https://en.youbike.com.tw/region/taipei/faq/); all retrieved 2026-11-18. Summary written by the project team.
+
+YouBike for foreign visitors, international students and one-time users
+
+There are two ways for a foreign national to ride a YouBike in Taipei.
+
+Option 1, become a member. Registration accepts a passport number or an ARC (residence certificate) number as well as a National ID number (Membership Agreement, Article 2.1). After registering, a foreign member rents with an IC card or a QR code like any other member.
+
+Option 2, single rental without registering. Unregistered single rental users may rent and return a bike once by following the procedure in the app (Articles 1.4 and 5.7). The steps are:
+1. Download the YouBike app (YouBike2.0) from the App Store or Google Play.
+2. Open the side menu and tap "Login / Register", then tap "Single Rental" at the bottom.
+3. Link a credit card and complete the email verification. The confirmation email includes the account details, the card number, the authorization period and the pre-authorization information.
+4. Return to the home screen, tap "Scan" and scan the QR code on the bike's screen.
+5. When the screen shows "Pull the bike backwards", pull the bike back to release it.
+Public bicycle injury insurance enrollment must be in place before riding.
+
+Cost of a single rental in Taipei City: the base rates apply, paid by credit card. The card is pre-authorized for 120 hours at a time with a NT$3,000 deposit, which is refunded after a normal return, subject to the card issuer's processing time.
+
+The Taipei City FAQ has a separate category, "Foreign Nationals on Rentals & Single Rental (Temporary Member)", including a question on which credit card types can be used for single rentals.

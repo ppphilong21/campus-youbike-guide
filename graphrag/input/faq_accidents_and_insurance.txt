@@ -1,0 +1,13 @@
+Source: YouBike Standard Membership Agreement (https://en.youbike.com.tw/region/main/terms) and YouBike insurance page (https://en.youbike.com.tw/region/i/insurance), retrieved 2026-11-18. Summary written by the project team.
+
+YouBike accidents, loss and insurance
+
+After an accident that causes injury, death or property damage, report it to the police and notify YouBike immediately; the rental then ends (Membership Agreement, Article 5.11). Take photos and move the bike if possible, and call 119 if anyone is injured (Article 5.12). If the accident is the rider's fault, the rider bears the legal liability and compensation (Article 5.11).
+
+Injury insurance for riders: riders of a YouBike rented with an IC card that has injury insurance are covered for death, disability or hospitalization from an accident while riding. The maximum payout is NT$1 million, and a hospital stay pays up to NT$1,000 per day. A new member's first IC card is enrolled automatically with no premium; other cards must be registered in the app or on the website. Each card can have only one insured person, and the card user must be the insured person. Accidents caused by traffic violations are not covered.
+
+Third-party liability insurance: if a rider injures or kills another person in an accident, the insurance pays up to NT$2 million per person. Breaches of traffic rules are not covered. Taipei City is a covered area, and Taipei City bikes have a vehicle number starting with 01.
+
+Lost bike: report the loss to the police as soon as possible, give the police certificate to YouBike, and pay the fees up to the time of loss (Article 5.5). If the bike is not recovered within three months and the loss is attributable to the member or a third party, the compensation is NT$15,000 for a YouBike 2.0 and NT$25,000 for a YouBike 2.0E (Article 5.5).
+
+Damage: members must pay for damage to the bike that they cause, and bear the costs of rescue, repairs and third-party damage (Articles 5.11 and 5.12).

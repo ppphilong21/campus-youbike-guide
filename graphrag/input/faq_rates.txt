@@ -1,0 +1,22 @@
+Source: YouBike official website, Taipei City rates page (https://en.youbike.com.tw/region/taipei/rate), retrieved 2026-11-18. Summary written by the project team; all amounts are as stated on the page.
+
+YouBike rates in Taipei City
+
+YouBike 2.0 rental fees are the same for members and for one-time users:
+- First 4 hours: NT$10 per 30 minutes.
+- From 4 to 8 hours: NT$20 per 30 minutes.
+- Over 8 hours: NT$40 per 30 minutes.
+- A ride shorter than 30 minutes still counts as 30 minutes.
+
+YouBike 2.0E (electric assist bike) rental fees:
+- First 2 hours: NT$20 per 30 minutes.
+- Over 2 hours: NT$40 per 30 minutes.
+- A ride shorter than 30 minutes still counts as 30 minutes.
+
+Member subsidy in Taipei City: since 28 February 2024, Taipei City has given members a NT$10 subsidy per rental within the city. Rides longer than 30 minutes are charged at the current rates.
+
+Discounts: YouBike 2.0 can be used with TPASS, the Taipei City senior card and the Taipei City charity card. YouBike 2.0E accepts the senior card and the charity card, but it has no subsidy and is not covered by TPASS.
+
+One-time users (single rental) pay by credit card at the base rates. The credit card is pre-authorized for 120 hours at a time, with a NT$3,000 deposit for either bike type. The deposit is refunded after a normal return, subject to the card issuer's processing time.
+
+Other fees: the page lists a roadside assistance fee of NT$150 within the city. Outside the service area, the rider must return the bike to a station or pay a dispatch fee. Cross-area dispatch fees range from NT$600 to NT$1,135 depending on the route.
