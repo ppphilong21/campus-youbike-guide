@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500101021: Taipei Municipal MingChuan Elementary School(Side Gate) (銘傳國小側門)
-Name in the YouBike system: YouBike2.0_Taipei Municipal MingChuan Elementary School(Side Gate) / YouBike2.0_銘傳國小側門.
-District: Daan Dist. (大安區). Address: No. 21， Sec. 4， Roosevelt Rd. (羅斯福路四段21號旁天橋下).
-Nearest campus places: International Building (國際大樓), about 490 m; Engineering Building 2 (工程二館), about 550 m; Administration Building (行政大樓), about 570 m.
-Nearest campus gate: Main Gate, about 510 m.

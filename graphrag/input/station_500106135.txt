@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500106135: Ln. 108， Sec. 4， Roosevelt Rd. (羅斯福路四段108巷口)
-Name in the YouBike system: YouBike2.0_Ln. 108， Sec. 4， Roosevelt Rd. / YouBike2.0_羅斯福路四段108巷口.
-District: Zhongzheng Dist (中正區). Address: No. 112， Sec. 4， Roosevelt Rd. (羅斯福路四段112號前).
-Nearest campus places: International Building (國際大樓), about 480 m; Engineering Building 2 (工程二館), about 540 m; Administration Building (行政大樓), about 560 m.
-Nearest campus gate: Main Gate, about 510 m.

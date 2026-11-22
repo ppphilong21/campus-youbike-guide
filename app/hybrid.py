@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "app"))
 
 import nearest_station as ns  # noqa: E402
-from graph_query import context_sources, run_query  # noqa: E402
+from graph_query import context_graph, context_sources, run_query  # noqa: E402
 
 _cache = {}
 
@@ -82,24 +82,35 @@ def live_cards(snos, feed, distances=None):
             "active": (live or {}).get("act") == "1" if live else None,
             "updated": live.get("mday", "") if live else "",
             "tour_url": tour_by_sno.get(sno, {}).get("tour_url", ""),
+            "lat": float((live or meta).get("lat") or 0) or None,
+            "lng": float((live or meta).get("lng") or 0) or None,
         })
     return cards
 
 
-def answer(question, mode="hybrid", k=3):
-    """Return a dict with the answer, sources, recognised place, station cards and timing."""
+def answer(question, mode="hybrid", k=3, root=None, response_type="Multiple Paragraphs", overrides=None,
+           live=True):
+    """Return a dict with the answer, sources, recognised place, station cards and timing.
+
+    root: GraphRAG folder to query (default: GRAPHRAG_ROOT, normally graphrag/).
+    response_type, overrides: passed to run_query (the evaluation uses them).
+    live: False skips the YouBike API call (the evaluation does not need live counts).
+    """
     place = ns.find_place(question, buildings())
     result = {"question": question, "mode": mode, "place": place["name"] if place else None,
+              "place_coords": (place["lat"], place["lng"]) if place and place["lat"] is not None else None,
               "stations": [], "live_error": None, "notes": []}
 
     if mode != "hybrid":
-        r = run_query(question, mode)
-        result.update(answer=r["answer"], sources=context_sources(r["context"]), seconds=r["seconds"])
+        r = run_query(question, mode, root=root, response_type=response_type, overrides=overrides)
+        result["context"] = r["context"]
+        result.update(answer=r["answer"], sources=context_sources(r["context"]), seconds=r["seconds"],
+                      graph_context=context_graph(r["context"]))
         return result
 
     feed = None
     try:
-        feed = ns.fetch_stations()
+        feed = ns.fetch_stations() if live else None
     except Exception as exc:  # network down, API changed, ...
         result["live_error"] = f"{type(exc).__name__}: {exc}"
 
@@ -122,8 +133,10 @@ def answer(question, mode="hybrid", k=3):
                       f"straight-line distance are: {listing}. Live bike counts are shown to the user "
                       f"separately, so do not state any bike counts.")
 
-    r = run_query(prompt, "local")
-    result.update(answer=r["answer"], sources=context_sources(r["context"]), seconds=r["seconds"])
+    r = run_query(prompt, "local", root=root, response_type=response_type, overrides=overrides)
+    result["context"] = r["context"]
+    result.update(answer=r["answer"], sources=context_sources(r["context"]), seconds=r["seconds"],
+                  graph_context=context_graph(r["context"]))
 
     snos = nearest or stations_named_in(r["answer"])[:k]
     result["stations"] = live_cards(snos, feed, distances)

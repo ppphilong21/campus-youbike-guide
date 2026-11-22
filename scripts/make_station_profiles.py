@@ -122,29 +122,31 @@ def main():
         def ranked(group):
             return sorted(((ns.haversine_m(lat, lng, p["lat"], p["lng"]), p) for p in group), key=lambda x: x[0])
 
+        # One short, consistent name per station, so the graph gets one entity per station
+        # (the system name "YouBike2.0_NTUST(Back Gate)" made the model create odd duplicates).
         name_en = short(s["snaen"]) or short(s["sna"])
+        name = f"{name_en} station"
         lines = [
             f"Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved {date}. "
             "Distances are straight-line distances computed by the project team from campus map coordinates.",
             "",
-            f"YouBike station {s['sno']}: {name_en} ({short(s['sna'])})",
-            f"Name in the YouBike system: {s['snaen'] or s['sna']} / {s['sna']}.",
-            f"District: {s['sareaen']} ({s['sarea']}). Address: {s['aren']} ({s['ar']}).",
+            f"{name} ({short(s['sna'])}) is a YouBike 2.0 station, station number {s['sno']}.",
+            f"{name} is in {s['sareaen']} ({s['sarea']}), at {s['aren']} ({s['ar']}).",
         ]
         if s.get("tot"):
-            lines.append(f"Size: {s['tot']} docks.")
+            lines.append(f"{name} has {s['tot']} docks.")
         near = ranked(campus)[:3]
-        lines.append("Nearest campus places: " + "; ".join(f"{p['name']} ({p['name_zh']}), {about(d)}" for d, p in near) + ".")
+        lines.append(f"Campus places nearest to {name}: " + "; ".join(f"{p['name']} ({p['name_zh']}), {about(d)}" for d, p in near) + ".")
         if gates:
             d, g = ranked(gates)[0]
-            lines.append(f"Nearest campus gate: {g['name']}, {about(d)}.")
+            lines.append(f"The campus gate nearest to {name} is the {g['name']}, {about(d)}.")
         if neighbours:
             d, n = ranked(neighbours)[0]
             if d <= 200:
-                lines.append(f"Nearby landmark outside campus: {n['name']} ({n['name_zh']}), {about(d)}.")
+                lines.append(f"A landmark outside campus near {name}: {n['name']} ({n['name_zh']}), {about(d)}.")
         if s["sno"] in markers:
             m = markers[s["sno"]]
-            lines.append(f"On the official campus map this station is marked {m['location'][0].lower() + m['location'][1:]}.")
+            lines.append(f"On the official campus map, {name} is marked {m['location'][0].lower() + m['location'][1:]}.")
         if s["sno"] in patterns:
             n, ndays, first, last, few_bikes, few_docks = patterns[s["sno"]]
             parts = []
@@ -154,9 +156,9 @@ def main():
                 parts.append(f"usually has fewer than {FEW} free docks for returning a bike at " + ", ".join(few_docks))
             summary = "; it ".join(parts) if parts else f"usually has at least {FEW} bikes and {FEW} free docks"
             lines.append(f"Typical weekday pattern (from {n} snapshots on {ndays} weekdays, {first} to {last}): "
-                         f"the station {summary}.")
+                         f"{name} {summary}.")
         if s["sno"] in tours:
-            lines.append(f"Virtual tour: an iStaging virtual tour of this station is available at {tours[s['sno']]['tour_url']}.")
+            lines.append(f"An iStaging virtual tour of {name} is available at {tours[s['sno']]['tour_url']}.")
         with open(os.path.join(out_dir, f"station_{s['sno']}.txt"), "w", encoding="utf-8") as f:
             f.write("\n".join(lines) + "\n")
 

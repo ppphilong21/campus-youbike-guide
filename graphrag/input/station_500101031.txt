@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500101031: NTU 7th Men's Dorm (臺大男七舍前)
-Name in the YouBike system: YouBike2.0_NTU 7th Men's Dorm / YouBike2.0_臺大男七舍前.
-District: Daan Dist. (大安區). Address: Ln. 80， Changxing St. Intersection(West) (長興街/長興街80巷口西側).
-Nearest campus places: IA Building (醫揚大樓), about 370 m; IA Cafeteria (醫揚餐廳), about 380 m; Swimming Pool (游泳池), about 380 m.
-Nearest campus gate: Back Gate (dormitory side), about 450 m.

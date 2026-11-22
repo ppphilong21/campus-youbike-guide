@@ -4,3 +4,4 @@ streamlit>=1.40
 requests
 pandas
 numpy
+pyvis==0.3.2   # knowledge graph view in the app (pydeck for the map comes with streamlit)

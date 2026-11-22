@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500119087: NTU Main Library(Southwest) (臺大總圖書館西南側)
-Name in the YouBike system: YouBike2.0_NTU Main Library(Southwest) / YouBike2.0_臺大總圖書館西南側.
-District: NTU Dist (臺大公館校區). Address: NTU Main Library(Southwest) (臺大圖書館西南側).
-Nearest campus places: Athletic Field (運動場), about 320 m; Research Building (綜合研究大樓), about 330 m; First Academic Building (第一教學大樓), about 330 m.
-Nearest campus gate: Main Gate, about 350 m.

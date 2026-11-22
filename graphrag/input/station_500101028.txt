@@ -1,9 +1,9 @@
 Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
 
-YouBike station 500101028: NTU Cancer Center (臺大醫學院附設癌醫中心)
-Name in the YouBike system: YouBike2.0_NTU Cancer Center / YouBike2.0_臺大醫學院附設癌醫中心.
-District: Daan Dist. (大安區). Address: No. 57， Ln. 155， Sec. 3， Keelung Rd.(West) (基隆路三段155巷57號西側).
-Nearest campus places: IA Cafeteria (醫揚餐廳), about 40 m; IA Building (醫揚大樓), about 50 m; Gymnasium (體育館), about 50 m.
-Nearest campus gate: Back Gate (dormitory side), about 130 m.
-Nearby landmark outside campus: NTU Cancer Center (臺大醫院癌症醫療中心), about 50 m.
-On the official campus map this station is marked on Lane 155, opposite the Gymnasium and IA.
+NTU Cancer Center station (臺大醫學院附設癌醫中心) is a YouBike 2.0 station, station number 500101028.
+NTU Cancer Center station is in Daan Dist. (大安區), at No. 57， Ln. 155， Sec. 3， Keelung Rd.(West) (基隆路三段155巷57號西側).
+Campus places nearest to NTU Cancer Center station: IA Cafeteria (醫揚餐廳), about 40 m; IA Building (醫揚大樓), about 50 m; Gymnasium (體育館), about 50 m.
+The campus gate nearest to NTU Cancer Center station is the Back Gate (dormitory side), about 130 m.
+A landmark outside campus near NTU Cancer Center station: NTU Cancer Center (臺大醫院癌症醫療中心), about 50 m.
+On the official campus map, NTU Cancer Center station is marked on Lane 155, opposite the Gymnasium and IA.
+Typical weekday pattern (from 34 snapshots on 4 weekdays, 2026-11-17 to 2026-11-20): NTU Cancer Center station usually has fewer than 3 free docks for returning a bike at 14:00-16:00.

@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500101036: NTU Wan Tsai Research Hall (臺大萬才館前)
-Name in the YouBike system: YouBike2.0_NTU Wan Tsai Research Hall / YouBike2.0_臺大萬才館前.
-District: Daan Dist. (大安區). Address: NTU Wan Tsai Research Hall (臺大萬才館北側).
-Nearest campus places: TR Building (研揚大樓), about 630 m; IA Building (醫揚大樓), about 660 m; Basketball Court (籃球場), about 670 m.
-Nearest campus gate: Back Gate (dormitory side), about 810 m.

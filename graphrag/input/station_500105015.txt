@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500105015: National Taiwan Normal University Gongguan Campus (師範大學公館校區)
-Name in the YouBike system: YouBike2.0_National Taiwan Normal University Gongguan Campus / YouBike2.0_師範大學公館校區.
-District: Wenshan Dist (文山區). Address: No. 77， Sec. 4， Tingzhou Rd. (汀州路四段77號(旁)).
-Nearest campus places: Second Academic Building (第二教學大樓), about 580 m; EE Building (電資館), about 610 m; T2 Cafeteria (第二教學大樓餐廳), about 620 m.
-Nearest campus gate: Back Gate (Haoyang side), about 650 m.

@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500119084: NTU Tseng Jiang Hall(North) (臺大鄭江樓北側)
-Name in the YouBike system: YouBike2.0_NTU Tseng Jiang Hall(North) / YouBike2.0_臺大鄭江樓北側.
-District: NTU Dist (臺大公館校區). Address: NTU Graduate Institute of Journalism(South) (臺大鄭江樓東南側).
-Nearest campus places: TR Building (研揚大樓), about 400 m; Athletic Field (運動場), about 430 m; Basketball Court (籃球場), about 440 m.
-Nearest campus gate: Back Gate (dormitory side), about 590 m.

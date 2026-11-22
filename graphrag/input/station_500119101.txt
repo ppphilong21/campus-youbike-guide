@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500119101: NTU Der Tian Hall (Northeast) (臺大德田館東北側)
-Name in the YouBike system: YouBike2.0_NTU Der Tian Hall (Northeast) / YouBike2.0_臺大德田館東北側.
-District: NTU Dist (臺大公館校區). Address: NTU Der Tian Hall (Northeast) (臺大德田館東北側).
-Nearest campus places: TR Building (研揚大樓), about 540 m; Athletic Field (運動場), about 560 m; Basketball Court (籃球場), about 580 m.
-Nearest campus gate: Main Gate, about 680 m.

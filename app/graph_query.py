@@ -4,6 +4,10 @@ Uses the same loading code as the `graphrag query` command (graphrag 3.3.0), so 
 results match the command line. The context is kept because the app shows sources
 and the evaluation (RAGAS) needs the retrieved text.
 
+overrides: optional settings that replace values from settings.yaml for one query, in the
+same nested shape, for the ablation without editing the file, e.g.
+{"completion_models": {"default_completion_model": {"model": "qwen3:8b"}}}.
+
 For offline tests only: set GRAPH_QUERY_STUB=1 to get a fixed answer without GraphRAG.
 """
 import contextlib
@@ -17,7 +21,34 @@ GRAPHRAG_ROOT = Path(os.environ.get("GRAPHRAG_ROOT", ROOT / "graphrag"))
 MODES = ("local", "global", "drift", "basic")
 
 
-def run_query(question, mode="local", community_level=2, response_type="Multiple Paragraphs", root=None):
+def _merge(base, extra):
+    out = dict(base)
+    for key, value in extra.items():
+        out[key] = _merge(out[key], value) if isinstance(value, dict) and isinstance(out.get(key), dict) else value
+    return out
+
+
+@contextlib.contextmanager
+def _with_overrides(q, overrides):
+    """Make the CLI helpers load settings.yaml with `overrides` merged in."""
+    if not overrides:
+        yield
+        return
+    original = q.load_config
+
+    def load_config(*args, **kwargs):
+        kwargs["cli_overrides"] = _merge(kwargs.get("cli_overrides") or {}, overrides)
+        return original(*args, **kwargs)
+
+    q.load_config = load_config
+    try:
+        yield
+    finally:
+        q.load_config = original
+
+
+def run_query(question, mode="local", community_level=2, response_type="Multiple Paragraphs", root=None,
+              overrides=None):
     """Return {"mode", "answer", "context", "seconds"} for one GraphRAG query."""
     if mode not in MODES:
         raise ValueError(f"mode must be one of {MODES}")
@@ -30,7 +61,7 @@ def run_query(question, mode="local", community_level=2, response_type="Multiple
     from graphrag.cli import query as q  # imported here so the app starts fast
 
     root = Path(root or GRAPHRAG_ROOT)
-    with contextlib.redirect_stdout(io.StringIO()):  # the CLI helpers also print the answer
+    with contextlib.redirect_stdout(io.StringIO()), _with_overrides(q, overrides):  # the CLI also prints
         if mode == "local":
             answer, context = q.run_local_search(None, root, community_level, response_type, False, question, False)
         elif mode == "global":
@@ -72,6 +103,22 @@ def context_sources(context, per_kind=5):
             if text:
                 out.append((kind, title, text))
     return out
+
+
+def context_graph(context):
+    """What a search put in the model's context, for the "how this answer was found" graph.
+
+    Returns entity titles, (source, target) relationship pairs, report titles and the
+    number of text chunks. Basic search has only text chunks; global search only reports.
+    """
+    if not isinstance(context, dict):
+        return {"entities": [], "relationships": [], "reports": [], "sources": 0}
+    ents = [str(r.get("entity") or r.get("title") or "") for r in _rows(context.get("entities"))]
+    rels = [(str(r["source"]), str(r["target"])) for r in _rows(context.get("relationships"))
+            if r.get("source") and r.get("target")]
+    reports = [str(r.get("title", "")) for r in _rows(context.get("reports"))]
+    return {"entities": [e for e in ents if e], "relationships": rels, "reports": reports,
+            "sources": len(_rows(context.get("sources")))}
 
 
 def context_texts(context):

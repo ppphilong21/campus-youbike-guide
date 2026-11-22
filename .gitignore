@@ -1,10 +1,17 @@
+# Python and editors
 .venv/
 __pycache__/
 *.pyc
-graphrag/output/
-graphrag/cache/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# GraphRAG: the index (graphrag/output/) is committed so the app runs without a 6-hour rebuild
 graphrag/logs/
 graphrag/update_output/
 graphrag_test/
+
+# raw API dumps and video footage
 data/raw/*.json
 field_media/

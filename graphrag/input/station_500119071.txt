@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500119071: NTU Computer and Information Networking Center(South) (臺大計資中心南側)
-Name in the YouBike system: YouBike2.0_NTU Computer and Information Networking Center(South) / YouBike2.0_臺大計資中心南側.
-District: NTU Dist (臺大公館校區). Address: NTU Computer and Information Networking Center(South) (臺大計算機網路資訊中心南側).
-Nearest campus places: TR Building (研揚大樓), about 670 m; Athletic Field (運動場), about 670 m; Ceremonial Stand (司令台), about 700 m.
-Nearest campus gate: Main Gate, about 740 m.

@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500101098: Wolong Park (臥龍公園)
-Name in the YouBike system: YouBike2.0_Wolong Park / YouBike2.0_臥龍公園.
-District: Daan Dist. (大安區). Address: No. 223， Sec. 3， Xinhai Rd. (West) (辛亥路三段223號西側).
-Nearest campus places: IA Building (醫揚大樓), about 720 m; Swimming Pool (游泳池), about 730 m; IA Cafeteria (醫揚餐廳), about 730 m.
-Nearest campus gate: Back Gate (dormitory side), about 800 m.

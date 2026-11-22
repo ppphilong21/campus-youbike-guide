@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500101015: Taipei Da-an Sports Center Parking lot (大安運動中心停車場)
-Name in the YouBike system: YouBike2.0_Taipei Da-an Sports Center Parking lot / YouBike2.0_大安運動中心停車場.
-District: Daan Dist. (大安區). Address: No. 28， Ln. 76， Dunnan St. (敦南街76巷28號).
-Nearest campus places: TR Building (研揚大樓), about 780 m; IA Building (醫揚大樓), about 790 m; IA Cafeteria (醫揚餐廳), about 810 m.
-Nearest campus gate: Back Gate (dormitory side), about 930 m.

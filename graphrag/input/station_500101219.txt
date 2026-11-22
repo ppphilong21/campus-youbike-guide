@@ -1,8 +1,8 @@
 Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
 
-YouBike station 500101219: Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. (羅斯福路四段113巷19弄口)
-Name in the YouBike system: YouBike2.0_Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. / YouBike2.0_羅斯福路四段113巷19弄口.
-District: Daan Dist. (大安區). Address: No. 84， Ln. 119， Sec. 4， Roosevelt Rd. (Opposite) (羅斯福路四段119巷84號對側).
-Nearest campus places: Second Academic Building (第二教學大樓), about 220 m; EE Building (電資館), about 230 m; 3rd Faculty Dormitory (職務三舍), about 250 m.
-Nearest campus gate: Back Gate (Haoyang side), about 280 m.
-Nearby landmark outside campus: Taipei Municipal Minzu Junior High School (民族國中), about 110 m.
+Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. station (羅斯福路四段113巷19弄口) is a YouBike 2.0 station, station number 500101219.
+Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. station is in Daan Dist. (大安區), at No. 84， Ln. 119， Sec. 4， Roosevelt Rd. (Opposite) (羅斯福路四段119巷84號對側).
+Campus places nearest to Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. station: Second Academic Building (第二教學大樓), about 220 m; EE Building (電資館), about 230 m; 3rd Faculty Dormitory (職務三舍), about 250 m.
+The campus gate nearest to Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. station is the Back Gate (Haoyang side), about 280 m.
+A landmark outside campus near Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. station: Taipei Municipal Minzu Junior High School (民族國中), about 110 m.
+Typical weekday pattern (from 34 snapshots on 4 weekdays, 2026-11-17 to 2026-11-20): Aly. 19， Ln. 113， Sec. 4， Roosevelt Rd. station usually has fewer than 3 bikes at 16:00-18:00; it usually has fewer than 3 free docks for returning a bike at 00:00-01:00, 22:00-24:00.

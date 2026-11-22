@@ -1,7 +1,7 @@
 Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
 
-YouBike station 500119092: NTU Bldg.1 College of Management (臺大管理學院一館)
-Name in the YouBike system: YouBike2.0_NTU Bldg.1 College of Management / YouBike2.0_臺大管理學院一館.
-District: NTU Dist (臺大公館校區). Address: NTU Bldg.1 College of Management (臺大管理學院一館前).
-Nearest campus places: International Building (國際大樓), about 240 m; Administration Building (行政大樓), about 310 m; Library (圖書館), about 310 m.
-Nearest campus gate: Main Gate, about 240 m.
+NTU Bldg.1 College of Management station (臺大管理學院一館) is a YouBike 2.0 station, station number 500119092.
+NTU Bldg.1 College of Management station is in NTU Dist (臺大公館校區), at NTU Bldg.1 College of Management (臺大管理學院一館前).
+Campus places nearest to NTU Bldg.1 College of Management station: International Building (國際大樓), about 240 m; Administration Building (行政大樓), about 310 m; Library (圖書館), about 310 m.
+The campus gate nearest to NTU Bldg.1 College of Management station is the Main Gate, about 240 m.
+Typical weekday pattern (from 34 snapshots on 4 weekdays, 2026-11-17 to 2026-11-20): NTU Bldg.1 College of Management station usually has fewer than 3 bikes at 00:00-01:00, 21:00-24:00.

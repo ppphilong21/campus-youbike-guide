@@ -1,9 +1,9 @@
 Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
 
-YouBike station 500101025: NTUST(Side Gate) (臺灣科技大學側門)
-Name in the YouBike system: YouBike2.0_NTUST(Side Gate) / YouBike2.0_臺灣科技大學側門.
-District: Daan Dist. (大安區). Address: Ln. 73， Sec. 4， Keelung Rd. Intersection (基隆路四段73巷與基隆路口).
-Nearest campus places: International Building (國際大樓), about 60 m; Engineering Building 2 (工程二館), about 110 m; Administration Building (行政大樓), about 140 m.
-Nearest campus gate: Main Gate, about 120 m.
-Nearby landmark outside campus: Taiwan Power Company Taipei Branch (臺電臺北市區營業處), about 90 m.
-On the official campus map this station is marked at the corner of Keelung Road and Lane 73, beside IB.
+NTUST(Side Gate) station (臺灣科技大學側門) is a YouBike 2.0 station, station number 500101025.
+NTUST(Side Gate) station is in Daan Dist. (大安區), at Ln. 73， Sec. 4， Keelung Rd. Intersection (基隆路四段73巷與基隆路口).
+Campus places nearest to NTUST(Side Gate) station: International Building (國際大樓), about 60 m; Engineering Building 2 (工程二館), about 110 m; Administration Building (行政大樓), about 140 m.
+The campus gate nearest to NTUST(Side Gate) station is the Main Gate, about 120 m.
+A landmark outside campus near NTUST(Side Gate) station: Taiwan Power Company Taipei Branch (臺電臺北市區營業處), about 90 m.
+On the official campus map, NTUST(Side Gate) station is marked at the corner of Keelung Road and Lane 73, beside IB.
+Typical weekday pattern (from 34 snapshots on 4 weekdays, 2026-11-17 to 2026-11-20): NTUST(Side Gate) station usually has fewer than 3 bikes at 17:00-18:00, 21:00-22:00.

@@ -1,7 +1,0 @@
-Source: YouBike 2.0 Taipei real-time API (data.gov.tw dataset 137993), station list retrieved 2026-11-18. Distances are straight-line distances computed by the project team from campus map coordinates.
-
-YouBike station 500101273: Ln. 123， Sec. 4， Roosevelt Rd. (羅斯福路四段123巷)
-Name in the YouBike system: YouBike2.0_Ln. 123， Sec. 4， Roosevelt Rd. / YouBike2.0_羅斯福路四段123巷.
-District: Daan Dist. (大安區). Address: No. 17， Ln. 123， Sec. 4， Roosevelt Rd. (Opposite) (羅斯福路四段123巷17號對側).
-Nearest campus places: Second Academic Building (第二教學大樓), about 390 m; Engineering Building 2 (工程二館), about 410 m; International Building (國際大樓), about 410 m.
-Nearest campus gate: Back Gate (Haoyang side), about 480 m.
