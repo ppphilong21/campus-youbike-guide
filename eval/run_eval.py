@@ -11,6 +11,7 @@ Examples (from the project folder, with the venv active and Ollama running):
   python eval/run_eval.py --tag noreports --variant noreports --modes local
   python eval/run_eval.py --tag try --modes local --ids F01,M01 --dry-run
   python eval/run_eval.py --plan full          # all of the above, one step after another
+  python eval/run_eval.py --plan route         # Hybrid v2 and the suitability questions
 
 Variants change settings for these queries only; settings.yaml and the index stay as they are:
   default    the settings in settings.yaml
@@ -29,8 +30,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "app"))
 
-MODES = ("basic", "local", "hybrid", "global", "drift")
-TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual")
+MODES = ("basic", "local", "hybrid", "hybrid2", "global", "drift")
+TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability")
 VARIANTS = {
     "default": {},
     "8b": {"completion_models": {"default_completion_model": {"model": "qwen3:8b"}}},
@@ -77,10 +78,12 @@ class DocLookup:
 
     def files(self, context):
         rows = context.get("sources") if isinstance(context, dict) else None
-        if rows is None or not hasattr(rows, "to_dict"):
+        if hasattr(rows, "to_dict"):
+            rows = rows.to_dict("records")
+        if not isinstance(rows, list):
             return []
         seen = []
-        for r in rows.to_dict("records"):
+        for r in rows:
             name = self.by_chunk.get(str(r.get("id")), "")
             if name and name not in seen:
                 seen.append(name)
@@ -113,6 +116,8 @@ def ask(row, mode, args, overrides, lookup):
             n_entities=count(ctx, "entities"), n_relationships=count(ctx, "relationships"),
             n_reports=count(ctx, "reports"), n_chunks=count(ctx, "sources"),
             entities=(graph.get("entities") or [])[:30],
+            facts=(ctx or {}).get("facts") if isinstance(ctx, dict) else None,  # hybrid2: what the model was told
+            prompt_tokens=res.get("prompt_tokens"), completion_tokens=res.get("completion_tokens"),
             error=None,
         )
     except KeyboardInterrupt:
@@ -131,6 +136,12 @@ PLANS = {
         {"tag": "main", "modes": "drift", "types": "global"},
         {"tag": "noreports", "variant": "noreports", "modes": "local", "types": "multihop,station"},
         {"tag": "8b", "variant": "8b", "modes": "local", "types": "multihop,station"},
+    ],
+    # Hybrid v2: the 18 questions where Hybrid recognised a place, then the 8 suitability questions
+    "route": [
+        {"tag": "route", "modes": "hybrid2", "types": "",
+         "ids": "F10,M01,M02,M03,M04,M05,M06,M11,M12,S01,S02,S03,S04,S06,U02,U03,L02,L03"},
+        {"tag": "route", "modes": "basic,local,hybrid,hybrid2", "types": "suitability", "ids": ""},
     ],
 }
 

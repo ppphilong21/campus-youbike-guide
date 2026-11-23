@@ -1,0 +1,243 @@
+system,id,manual,note
+basic,F01,0,headline NT$80 (wrong); NT$40 only inside the working
+local,F01,1,
+hybrid,F01,1,
+basic,F02,1,
+local,F02,1,
+hybrid,F02,1,
+basic,F03,1,
+local,F03,0,said not in data; rules file not retrieved
+hybrid,F03,0,said not in data; rules file not retrieved
+basic,F04,1,
+local,F04,1,
+hybrid,F04,1,
+basic,F05,1,
+local,F05,1,
+hybrid,F05,1,
+basic,F06,1,
+local,F06,1,"says 'daily hospital stay coverage of up to NT$1,000' (matcher missed the wording)"
+hybrid,F06,1,same as local
+basic,F07,1,
+local,F07,1,
+hybrid,F07,1,
+basic,F08,1,
+local,F08,0,said not in data; rules file not retrieved
+hybrid,F08,0,said not in data; rules file not retrieved
+basic,F09,1,
+local,F09,1,
+hybrid,F09,1,
+basic,F10,1,
+local,F10,0.5,right place then a second contradictory place (Lane 155 by TR)
+hybrid,F10,0,said not mentioned; station text in the query pulled station entities instead
+basic,F11,1,
+local,F11,1,
+hybrid,F11,1,
+basic,F12,1,
+local,F12,1,
+hybrid,F12,1,
+basic,M01,0,said CSIE not in data (acronym)
+local,M01,0,wrong building (T1)
+hybrid,M01,0.5,T4 and RB right; T1 wrong; Auditorium missing
+global,M01,0,wrong building (RB)
+basic,M02,1,
+local,M02,1,
+hybrid,M02,1,
+global,M02,1,
+basic,M03,1,
+local,M03,1,
+hybrid,M03,1,
+global,M03,1,
+basic,M04,1,
+local,M04,0,wrong building (EE)
+hybrid,M04,1,
+global,M04,0.5,Haoyang right; units missing
+basic,M05,1,
+local,M05,0.5,Lane 73 corner right; calls it the Main Gate station (it is Side Gate)
+hybrid,M05,1,names the Side Gate station; 56 m
+global,M05,0.5,same station mix-up as local
+basic,M06,1,
+local,M06,1,
+hybrid,M06,1,
+global,M06,0,refused
+basic,M07,1,
+local,M07,1,
+hybrid,M07,1,
+global,M07,1,
+basic,M08,1,
+local,M08,1,'not covered by TPASS or the NT$10 subsidy' (matcher missed the wording)
+hybrid,M08,1,same as local
+global,M08,0,says TPASS works on 2.0E
+basic,M09,0,final answer NT$80
+local,M09,0.5,opens with NT$100; ends with the right NT$120
+hybrid,M09,0.5,same as local
+global,M09,0,said not in data (matcher matched '120 hours')
+basic,M10,1,
+local,M10,0.5,coverage right; police step missing
+hybrid,M10,0.5,same as local
+global,M10,0.5,police right; amount missing
+basic,M11,0,said Computer Center not in data although the chunk was retrieved
+local,M11,0.5,RB right; T1 instead of Library
+hybrid,M11,0.5,RB right; T1 instead of Library (matcher matched 'Library' elsewhere)
+global,M11,0.5,RB right; IB instead of Library
+basic,M12,1,
+local,M12,1,
+hybrid,M12,1,
+global,M12,0.5,GO Station missing
+basic,G01,1,
+local,G01,0.5,no fees; no Single Rental; no height
+hybrid,G01,0.5,same gaps as local
+global,G01,0.5,no fees or height
+basic,G02,0.5,no loss compensation; wrongly says 2.0E refuses the senior card
+local,G02,1,
+hybrid,G02,1,
+global,G02,0.5,only the compensation difference; says other differences unknown
+basic,G03,1,
+local,G03,1,
+hybrid,G03,1,
+global,G03,0.5,Huaxia shuttle missing
+basic,G04,1,
+local,G04,0.5,full station and faulty-bike cases missing
+hybrid,G04,0.5,same as local
+global,G04,0.5,full station and faulty-bike cases missing; some invented rules
+basic,G05,1,
+local,G05,1,
+hybrid,G05,1,
+global,G05,1,
+basic,G06,1,
+local,G06,0.5,braking rule missing
+hybrid,G06,0.5,same as local
+global,G06,0.5,mostly off-topic (registration; loss fees)
+basic,S01,0.5,right station; distance 150 m (75 m)
+local,S01,0.5,right station; no distance
+hybrid,S01,1,right station; 75 m
+basic,S02,0,said CSIE not in data
+local,S02,0,said CSIE not in data
+hybrid,S02,0,said CSIE not in data (the station card still showed Main Gate 91 m)
+basic,S03,1,
+local,S03,0.5,wrong landmark (elementary school)
+hybrid,S03,1,
+basic,S04,1,
+local,S04,1,
+hybrid,S04,1,
+basic,S05,1,
+local,S05,1,
+hybrid,S05,1,
+basic,S06,0,recommends Gongguan Park station (matcher matched 'Back Gate' elsewhere)
+local,S06,1,
+hybrid,S06,1,
+basic,U01,1,
+local,U01,1,
+hybrid,U01,1,
+basic,U02,1,
+local,U02,1,
+hybrid,U02,1,
+basic,U03,1,
+local,U03,1,
+hybrid,U03,1,
+basic,U04,1,
+local,U04,1,
+hybrid,U04,1,
+basic,L01,0,NT$80 (answered in English)
+local,L01,1,answered in English
+hybrid,L01,1,answered in English
+basic,L02,1,
+local,L02,1,
+hybrid,L02,0,said not in data; station text pulled station entities instead of T4
+basic,L03,1,answered in English
+local,L03,1,answered in English
+hybrid,L03,1,answered in English
+basic,L04,1,answered in Chinese
+local,L04,1,answered in Chinese
+hybrid,L04,1,answered in Chinese
+drift,G01,0,invents opening hours (6:00-22:00) and says basic use has no fee; no registration or fees
+drift,G02,0.5,all three differences right; wrongly says 2.0E refuses the senior and charity cards
+drift,G03,0.5,Main Gate and NTU/NTNU shuttle right; Back Gate and Huaxia missing; invents 'no shuttle reaches RB'
+drift,G04,0.5,lost-bike case right; full station; faulty bike and accident cases missing; invented QR-code problems
+drift,G05,0.5,Keelung Road front and Lane 73 right; Back Gate missing
+drift,G06,0.5,only the drink-riding rule; fast lanes; passengers and braking missing
+local+noreports,M01,0,wrong building (T1)
+local+noreports,M02,1,
+local+noreports,M03,1,
+local+noreports,M04,1,Haoyang and both units (the default local said EE)
+local+noreports,M05,1,names the Side Gate station correctly
+local+noreports,M06,1,
+local+noreports,M07,1,
+local+noreports,M08,1,
+local+noreports,M09,0,NT$100
+local+noreports,M10,1,police; 119 and NT$2 million all present
+local+noreports,M11,0.5,RB right; T1 instead of Library
+local+noreports,M12,1,
+local+noreports,S01,0.5,right station; 310 m (75 m)
+local+noreports,S02,0,guesses Gongguan Park station
+local+noreports,S03,0.5,wrong landmark (Taiwan Power Company); buildings right
+local+noreports,S04,1,
+local+noreports,S05,1,
+local+noreports,S06,1,
+local+8b,M01,0,wrong building (T1)
+local+8b,M02,1,
+local+8b,M03,0.5,picks the dormitory-side Back Gate; the YouBike station is at the Haoyang-side gate
+local+8b,M04,1,
+local+8b,M05,0.5,Lane 73 corner right; calls it the Main Gate station
+local+8b,M06,1,
+local+8b,M07,1,
+local+8b,M08,0.5,says TPASS works on 2.0E (wrong); no subsidy (right)
+local+8b,M09,0,NT$70
+local+8b,M10,1,
+local+8b,M11,0.5,RB right; T1 instead of Library
+local+8b,M12,1,
+local+8b,S01,0.5,right station; 240 m (75 m)
+local+8b,S02,0.5,"right station (Main Gate), but says it does not know where CSIE is ('likely')"
+local+8b,S03,0.5,wrong landmark (elementary school); buildings right
+local+8b,S04,1,
+local+8b,S05,1,
+local+8b,S06,1,
+basic,R01,0.5,Main Gate and the 21:00-22:00 warning right; calls Gongguan Park the closest station to T4; no backup
+local,R01,0.5,Main Gate named but placed at Lane 73 beside IB (that is the Side Gate station); says docks are short too
+hybrid,R01,1,Main Gate 91 m; 21:00-22:00 warning; Cancer Center and Back Gate named as alternatives
+hybrid2,R01,1,Main Gate 91 m; shortage with snapshot count; Back Gate backup (median 26.5 bikes)
+basic,R02,1,
+local,R02,1,
+hybrid,R02,1,
+hybrid2,R02,1,
+basic,R03,0,recommends Keelung Rd. & Changxing St. station (270-310 m) instead of Cancer Center
+local,R03,0.5,Cancer Center right; says returning at 3 pm is fine and misses the 14:00-16:00 dock shortage
+hybrid,R03,0.5,Cancer Center right; says returning is not a problem while quoting the 14:00-16:00 dock shortage (self-contradicting)
+hybrid2,R03,1,Cancer Center; median 0.5 free docks at 15:00; Veterinary backup
+basic,R04,1,Side Gate at Lane 73 beside IB; distance 300 m is wrong (185 m) but not asked
+local,R04,0,puts the Main Gate station at Lane 73 and names Gongguan Park as next closest
+hybrid,R04,1,
+hybrid2,R04,1,Side Gate 185 m; backup is the Main Gate station the question says is empty
+basic,R05,0.5,Cancer Center right (says 320 m); wrong dock-shortage hours; no backup station
+local,R05,0.5,Cancer Center 50 m; no backup station
+hybrid,R05,0.5,Cancer Center 47 m; Veterinary as first backup although it is short at 17:00-18:00; Main Gate only as a further fallback
+hybrid2,R05,1,Cancer Center 47 m; Main Gate backup; Veterinary flagged as short
+basic,R06,0.5,Cancer Center named without a reason tied to the hour; also suggests the Parking lot station (short at 21:00-24:00); vague ending
+local,R06,0.5,Cancer Center named but called adjacent to TR (Veterinary is); nothing about the hour
+hybrid,R06,0,recommends Veterinary Hospital station; short of bikes at 22:00-23:00
+hybrid2,R06,1,Cancer Center; Veterinary flagged as short at 22:00-23:00
+basic,R07,0,recommends TR(North) station while quoting its 17:00-18:00 shortage
+local,R07,0,recommends Cancer Center (far from E2)
+hybrid,R07,0,recommends Side Gate (nearest) without the 17:00-18:00 shortage
+hybrid2,R07,1,Back Gate; Side Gate flagged as short at 17:00-18:00
+basic,R08,0,names the Environment Research Building station
+local,R08,0,said the Student Activity Center is not in the data
+hybrid,R08,0.5,Cancer Center and Back Gate (dormitory side) right; describes that gate at Alley 68 (the Haoyang-side gate)
+hybrid2,R08,1,
+hybrid2,F10,1,
+hybrid2,M01,1,
+hybrid2,M02,1,
+hybrid2,M03,1,
+hybrid2,M04,0.5,Haoyang right; says the data does not list its units
+hybrid2,M05,1,
+hybrid2,M06,1,
+hybrid2,M11,0.5,RB right; First Academic Building instead of the Library (relationship 354 was in its context)
+hybrid2,M12,1,
+hybrid2,S01,1,
+hybrid2,S02,1,
+hybrid2,S03,1,
+hybrid2,S04,1,21:00-23:00 from the newer log (the index says 21:00-22:00); station/backup template forced on a when-question
+hybrid2,S06,1,
+hybrid2,U02,1,
+hybrid2,U03,1,
+hybrid2,L02,1,
+hybrid2,L03,1,answered in English; matched the dormitory area (90 m)

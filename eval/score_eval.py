@@ -4,7 +4,7 @@
   python eval/score_eval.py eval/results/main.jsonl --show M01,U02   # print those answers side by side
 
 Writes, next to the first results file:
-  per_answer.csv  one row per answer with every score
+  per_answer.csv  one row per answer with every score (and the hand label, if there is one)
   summary.csv     one row per system (mode, plus the variant if it is not the default)
   summary.md      the same tables as Markdown, for the report and the slides
   summary.html    charts of the same numbers (open in a browser; no extra packages needed)
@@ -18,6 +18,10 @@ Scores (automatic, no judge model):
              (n/a for global search, which reads community reports, not chunks)
   seconds    time for the whole answer on this computer
 Key facts: ";" separates facts that must all appear, "|" separates accepted spellings.
+
+Hand labels (optional, recommended): manual_labels.csv with columns system,id,manual,note, where
+manual is 1 (right), 0.5 (partly right) or 0 (wrong). They are reported next to the automatic
+scores, with the agreement between the two.
 """
 import argparse
 import csv
@@ -29,8 +33,10 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual")
-MODE_ORDER = ("basic", "local", "hybrid", "global", "drift")
+TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability")
+MODE_ORDER = ("basic", "local", "hybrid", "hybrid2", "global", "drift")
+ID_ORDER = "FMGSULR"
+PAIRS = [("hybrid", "hybrid2")]  # modes compared on the same questions, like the ablation variants
 
 REFUSAL = (
     # English
@@ -185,21 +191,41 @@ def summarise(rows):
         for t in TYPES:
             line[f"acc_{t}"] = mean(r["accuracy"] for r in rs if r["type"] == t)
             line[f"n_{t}"] = sum(1 for r in rs if r["type"] == t)
+        checked = [r for r in rs if r.get("manual") not in ("", None)]
+        line["manual_n"] = len(checked)
+        line["manual_correct"] = mean(int(float(r["manual"]) == 1) for r in checked)
+        line["manual_score"] = mean(r["manual"] for r in checked)
+        line["auto_on_checked"] = mean(r["accuracy"] for r in checked)
+        line["agreement"] = mean(int(int(float(r["manual"]) == 1) == r["accuracy"]) for r in checked)
+        for t in TYPES:
+            line[f"man_{t}"] = mean(int(float(r["manual"]) == 1) for r in checked if r["type"] == t)
         out.append(line)
     return out
 
 
+def load_manual(path):
+    """Hand labels: system,id,manual,note with manual 1 (right), 0.5 (partly) or 0 (wrong)."""
+    labels = {}
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        for r in csv.DictReader(f):
+            if r.get("manual", "").strip():
+                labels[(r["system"].strip(), r["id"].strip())] = (float(r["manual"]), r.get("note", ""))
+    return labels
+
+
 def ablation(rows):
     """Each variant against its base mode on exactly the same questions."""
-    variants = [s for s in order({r["system"] for r in rows}) if "+" in s]
-    if not variants:
+    systems = {r["system"] for r in rows}
+    variants = [s for s in order(systems) if "+" in s]
+    pairs = [(v.split("+")[0], v) for v in variants] + [(a, b) for a, b in PAIRS if a in systems and b in systems]
+    if not pairs:
         return []
     by = {(r["system"], r["id"]): r for r in rows}
     out = ["", "## Ablation (same questions as the base mode)", "",
-           "| Change | Questions | Accuracy base → variant | Recall base → variant | Median s base → variant |",
-           "| --- | ---: | :---: | :---: | :---: |"]
-    for v in variants:
-        base = v.split("+")[0]
+           "| Change | Questions | Accuracy base → variant | Recall base → variant | Median s base → variant "
+           "| By hand base → variant |",
+           "| --- | ---: | :---: | :---: | :---: | :---: |"]
+    for base, v in pairs:
         ids = [i for (s, i) in by if s == v and (base, i) in by]
         if not ids:
             continue
@@ -210,9 +236,13 @@ def ablation(rows):
             return statistics.median(t) if t else None
 
         b, w = [p[0] for p in pair], [p[1] for p in pair]
+        hand = ""
+        if all(r.get("manual") not in ("", None) for r in b + w):
+            hand = (f" | {pct(mean(int(float(r['manual']) == 1) for r in b))} → "
+                    f"{pct(mean(int(float(r['manual']) == 1) for r in w))}")
         out.append(f"| {v} | {len(ids)} | {pct(mean(r['accuracy'] for r in b))} → {pct(mean(r['accuracy'] for r in w))} "
                    f"| {pct(mean(r['recall'] for r in b))} → {pct(mean(r['recall'] for r in w))} "
-                   f"| {secs(med(b))} → {secs(med(w))} |")
+                   f"| {secs(med(b))} → {secs(med(w))}{hand or ' | –'} |")
     return out
 
 
@@ -226,22 +256,40 @@ def markdown(summary, rows, sources):
         lines.append(f"| {s['system']} | {s['answers']} | {pct(s['accuracy'])} | {pct(s['recall'])} | "
                      f"{pct(s['unanswerable_correct'])} | {pct(s['refusal_rate'])} | {pct(s['file_hit'])} | "
                      f"{secs(s['median_seconds'])} | {secs(s['mean_seconds'])} |")
-    lines += ["", "## Accuracy by question type", "",
+    if any(s["manual_n"] for s in summary):
+        lines += ["", "## Checked by hand", "",
+                  "Each answer read and marked right (1), partly right (0.5) or wrong (0). "
+                  "Agreement = how often the automatic score gives the same right/wrong verdict.", "",
+                  "| System | Checked | Fully right | Score with half credit | Automatic accuracy | Agreement |",
+                  "| --- | ---: | ---: | ---: | ---: | ---: |"]
+        for s in summary:
+            if s["manual_n"]:
+                lines.append(f"| {s['system']} | {s['manual_n']} | {pct(s['manual_correct'])} | "
+                             f"{pct(s['manual_score'])} | {pct(s['auto_on_checked'])} | {pct(s['agreement'])} |")
+        lines += ["", "Fully right by question type (by hand):", "",
+                  "| System | " + " | ".join(TYPES) + " |", "| --- |" + " ---: |" * len(TYPES)]
+        for s in summary:
+            if s["manual_n"]:
+                cells = [f"{pct(s[f'man_{t}'])} ({s[f'n_{t}']})" if s[f"man_{t}"] is not None else "–" for t in TYPES]
+                lines.append(f"| {s['system']} | " + " | ".join(cells) + " |")
+    lines += ["", "## Accuracy by question type (automatic)", "",
               "| System | " + " | ".join(TYPES) + " |", "| --- |" + " ---: |" * len(TYPES)]
     for s in summary:
         cells = [f"{pct(s[f'acc_{t}'])} ({s[f'n_{t}']})" if s[f"n_{t}"] else "–" for t in TYPES]
         lines.append(f"| {s['system']} | " + " | ".join(cells) + " |")
     lines += ablation(rows)
     systems = [s["system"] for s in summary]
-    lines += ["", "## Per question", "", "✓ all key facts (or a correct refusal), ◐ some, ✗ none, – not run", "",
+    lines += ["", "## Per question", "", "✓ right, ◐ partly, ✗ wrong, – not run (by hand where checked, otherwise by key facts)", "",
               "| Question | " + " | ".join(systems) + " |", "| --- |" + " :---: |" * len(systems)]
     by = {(r["system"], r["id"]): r for r in rows}
-    for qid in sorted({r["id"] for r in rows}, key=lambda i: ("FMGSUL".find(i[0]), i)):
+    for qid in sorted({r["id"] for r in rows}, key=lambda i: (ID_ORDER.find(i[0]), i)):
         cells = []
         for system in systems:
             r = by.get((system, qid))
             if not r:
                 cells.append("–")
+            elif r.get("manual") not in ("", None):
+                cells.append({1.0: "✓", 0.5: "◐"}.get(float(r["manual"]), "✗"))
             elif r["accuracy"]:
                 cells.append("✓")
             elif r["recall"] not in ("", None) and float(r["recall"]) > 0:
@@ -280,6 +328,8 @@ def main():
     p.add_argument("--questions", default=str(ROOT / "eval" / "questions.csv"))
     p.add_argument("--show", default="", help="print the answers to these question ids, e.g. M01,U02")
     p.add_argument("--out", default="", help="folder for the tables (default: next to the first results file)")
+    p.add_argument("--manual", default="", help="hand labels CSV (default: manual_labels.csv next to the "
+                                                 "first results file, if it exists)")
     args = p.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(errors="replace")
@@ -292,8 +342,15 @@ def main():
         return
 
     rows = [score(rec, questions[qid]) for (system, qid), rec in best.items() if qid in questions]
+    manual_path = Path(args.manual) if args.manual else Path(args.results[0]).parent / "manual_labels.csv"
+    labels = load_manual(manual_path) if manual_path.exists() else {}
+    for r in rows:
+        value, note = labels.get((r["system"], r["id"]), ("", ""))
+        r["manual"], r["manual_note"] = value, note
+    if labels:
+        print(f"hand labels: {manual_path} ({sum(1 for r in rows if r['manual'] != '')} of {len(rows)} answers)")
     systems = order({r["system"] for r in rows})
-    rows.sort(key=lambda r: (systems.index(r["system"]), "FMGSUL".find(r["id"][0]), r["id"]))
+    rows.sort(key=lambda r: (systems.index(r["system"]), ID_ORDER.find(r["id"][0]), r["id"]))
     summary = summarise(rows)
     out = Path(args.out) if args.out else Path(args.results[0]).parent
     out.mkdir(parents=True, exist_ok=True)
@@ -312,7 +369,7 @@ def main():
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import charts
 
-    (out / "summary.html").write_text(charts.page(summary), encoding="utf-8")
+    (out / "summary.html").write_text(charts.page(summary, rows), encoding="utf-8")
 
     print(md.split("## Per question")[0].strip())
     print(f"\nWrote {out / 'summary.md'} (tables), {out / 'summary.html'} (charts, open in a browser), "

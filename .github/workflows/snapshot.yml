@@ -1,0 +1,60 @@
+# Records campus YouBike bike counts every 15 minutes, day and night, without the laptop.
+# The log is kept on its own branch, `snapshots`, so these commits never touch main.
+# Get the latest log into your copy:
+#   git fetch origin snapshots
+#   git checkout origin/snapshots -- data/raw/snapshots.csv
+name: YouBike snapshot
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # GitHub may start a run some minutes late, or skip one when busy
+  workflow_dispatch:          # "Run workflow" button, for a test
+
+permissions:
+  contents: write
+
+concurrency:
+  group: youbike-snapshot     # never two runs writing the log at once
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TZ: Asia/Taipei         # snapshot.py writes local time, as on the laptop
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests
+
+      - name: Start from the log on the snapshots branch (or the one on main the first time)
+        run: |
+          if git fetch --depth 1 origin snapshots; then
+            git show FETCH_HEAD:data/raw/snapshots.csv > data/raw/snapshots.csv
+          fi
+          wc -l data/raw/snapshots.csv || true
+
+      - name: Take a snapshot
+        run: python scripts/snapshot.py
+
+      - name: Save the log to the snapshots branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          cp data/raw/snapshots.csv "$RUNNER_TEMP/snapshots.csv"
+          if git fetch --depth 1 origin snapshots; then
+            git worktree add -B snapshots "$RUNNER_TEMP/log" FETCH_HEAD
+          else
+            git worktree add --orphan -b snapshots "$RUNNER_TEMP/log"
+          fi
+          cd "$RUNNER_TEMP/log"
+          mkdir -p data/raw
+          cp "$RUNNER_TEMP/snapshots.csv" data/raw/snapshots.csv
+          git add data/raw/snapshots.csv
+          git commit -q -m "snapshot $(date '+%Y-%m-%d %H:%M')"
+          git push origin snapshots

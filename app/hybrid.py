@@ -6,6 +6,8 @@ with their update time. So the model cannot invent or misquote a live number.
 
 modes:
   "hybrid"  local search + nearest stations by distance + live cards + tour links
+  "hybrid2" graph route: places in the question -> gates -> stations on the campus graph and the
+            GraphRAG graph, with computed facts and cited reasons (see graph_route.py)
   "local", "global", "drift", "basic"  plain GraphRAG, for comparison
 """
 import csv
@@ -96,6 +98,9 @@ def answer(question, mode="hybrid", k=3, root=None, response_type="Multiple Para
     response_type, overrides: passed to run_query (the evaluation uses them).
     live: False skips the YouBike API call (the evaluation does not need live counts).
     """
+    if mode == "hybrid2":
+        import graph_route  # imported here: graph_route imports this module
+        return graph_route.answer(question, root=root, overrides=overrides, live=live)
     place = ns.find_place(question, buildings())
     result = {"question": question, "mode": mode, "place": place["name"] if place else None,
               "place_coords": (place["lat"], place["lng"]) if place and place["lat"] is not None else None,

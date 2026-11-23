@@ -99,7 +99,7 @@ def find_place(question, buildings):
 FIELD_ALIASES = {
     "lat": ("lat", "latitude"),
     "lng": ("lng", "longitude"),
-    "tot": ("tot", "total"),
+    "tot": ("tot", "total", "Quantity"),  # the current feed calls the dock count "Quantity"
     "sbi": ("sbi", "available_rent_bikes"),
     "bemp": ("bemp", "available_return_bikes"),
     "mday": ("mday", "updateTime", "srcUpdateTime", "infoTime"),

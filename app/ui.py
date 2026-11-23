@@ -17,6 +17,7 @@ GREEN, ORANGE, RED, GREY = "#16A34A", "#F59E0B", "#DC2626", "#9CA3AF"
 # (eval/results/summary.md, 21-22 Nov 2026), icon.
 MODES = [
     ("hybrid", "Hybrid", "Local search + nearest stations + live YouBike", 244, ":material/route:"),
+    ("hybrid2", "Hybrid v2", "Graph route: place → gate → station, with reasons", 120, ":material/alt_route:"),
     ("local", "Local", "Entity-centred GraphRAG", 237, ":material/hub:"),
     ("global", "Global", "Community summaries, for overview questions", 388, ":material/public:"),
     ("drift", "DRIFT", "Iterative exploration, slow on a CPU", 1603, ":material/explore:"),
@@ -370,24 +371,35 @@ def other_stations(cards):
 # ---------- answer ----------
 
 CITE = re.compile(r"\s*\[Data:\s*((?:[^\[\]]|\[[^\]]*\])*)\]", re.I)
-PART = re.compile(r"([A-Za-z][A-Za-z ]*?)\s*\(([^()]*)\)")
+PART = re.compile(r"([A-Za-z][A-Za-z ]*?)?\s*\(([^()]*)\)")
+BARE = re.compile(r"\s*\[(\d+(?:\s*[;,]\s*\d+)*)\]")  # inline '[66]' or '[99; 354]' outside a [Data: ...] block
 
 
 def split_citations(answer):
     """Take GraphRAG's '[Data: Sources (33); Entities (2, 5)]' markers out of the text.
 
-    Returns the clean text and one line such as 'Reports (5) · Entities (2, 5) · Sources (33)'.
+    Also accepts 'Facts (F1), (F2)' (the kind is carried over) and bare inline numbers such as
+    '[66]', which are listed as 'Records'. Returns the clean text and one line such as
+    'Reports (5) · Entities (2, 5) · Sources (33)'.
     """
     found = {}
+
+    def keep(kind, ids):
+        bucket = found.setdefault(kind, [])
+        for i in (x.strip() for x in re.split(r"[,;]", ids)):
+            if i and i not in bucket:
+                bucket.append(i)
+
     for block in CITE.findall(answer or ""):
-        for kind, ids in PART.findall(block):
-            kind = kind.strip().title()
-            bucket = found.setdefault(kind, [])
-            for i in (x.strip() for x in ids.split(",")):
-                if i and i not in bucket:
-                    bucket.append(i)
-    text = CITE.sub("", answer or "").strip()
-    order = ["Reports", "Entities", "Relationships", "Claims", "Sources"]
+        kind = "Records"
+        for k, ids in PART.findall(block):
+            kind = k.strip().title() if k and k.strip() else kind
+            keep(kind, ids)
+    text = CITE.sub("", answer or "")
+    for ids in BARE.findall(text):
+        keep("Records", ids)
+    text = BARE.sub("", text).strip()
+    order = ["Facts", "Reports", "Entities", "Relationships", "Claims", "Sources", "Records"]
     kinds = sorted(found, key=lambda k: order.index(k) if k in order else 9)
     line = " · ".join(f"{k} ({', '.join(found[k][:12])}{', …' if len(found[k]) > 12 else ''})" for k in kinds)
     return text, line
@@ -403,7 +415,7 @@ def answer_chips(res):
 
 
 def answer_title(res, text):
-    if res["mode"] == "hybrid" and res.get("stations"):
+    if res["mode"] in ("hybrid", "hybrid2") and res.get("stations"):
         name = res["stations"][0]["name"]
         core = re.sub(r"[()]", " ", name).split()
         if name.lower() in text.lower() or (core and all(w.lower() in text.lower() for w in core)):
@@ -418,7 +430,7 @@ def sources_html(sources, limit=420):
         if kind == "sources" and first.lower().startswith("source:"):
             title, text = first.split(":", 1)[1].strip(), rest.strip()
         label = {"sources": "Source", "reports": "Report", "entities": "Entity", "relationships": "Relationship",
-                 "claims": "Claim"}.get(kind, kind)
+                 "claims": "Claim", "facts": "Computed fact"}.get(kind, kind)
         body = text[:limit] + ("…" if len(text) > limit else "")
         out.append(f'<div class="yb-src"><small>{esc(label)}</small><b>{esc(title)}</b><p>{esc(body)}</p></div>')
     return "".join(out)

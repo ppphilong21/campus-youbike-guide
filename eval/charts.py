@@ -5,7 +5,7 @@ screenshots for the slides. Light and dark mode follow the system setting.
 """
 from html import escape
 
-TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual")
+TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability")
 LIGHT_STEPS = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]  # 100..700
 
 CSS = """
@@ -73,7 +73,7 @@ def bars(items, fmt, max_value):
     return "".join(out)
 
 
-def heatmap(summary):
+def heatmap(summary, prefix="acc_"):
     """Accuracy by system (rows) and question type (columns), one blue ramp."""
     label_w, cell_w, cell_h, top = 150, 100, 34, 24
     width, height = label_w + cell_w * len(TYPES), top + cell_h * len(summary)
@@ -85,7 +85,7 @@ def heatmap(summary):
         out.append(f'<text x="{label_w - 10}" y="{y + cell_h / 2 + 4}" text-anchor="end">{escape(s["system"])}</text>')
         for j, t in enumerate(TYPES):
             x = label_w + j * cell_w
-            v, n = s.get(f"acc_{t}"), s.get(f"n_{t}", 0)
+            v, n = s.get(f"{prefix}{t}"), s.get(f"n_{t}", 0)
             if v is None:
                 out.append(f'<rect x="{x + 1}" y="{y + 1}" width="{cell_w - 2}" height="{cell_h - 2}" rx="4" '
                            f'style="fill:var(--empty)"/><text x="{x + cell_w / 2}" y="{y + cell_h / 2 + 4}" '
@@ -109,13 +109,44 @@ def legend():
             f'<text x="34" y="12" text-anchor="end">0%</text>{sw}<text x="{40 + 7 * 28 + 4}" y="12">100%</text></svg>')
 
 
-def page(summary, ablation_rows=None):
-    acc = [(s["system"], s["accuracy"], f"{s['system']}: {100 * (s['accuracy'] or 0):.0f}% of {s['answers']} answers")
-           for s in summary]
-    rec = [(s["system"], s["recall"], f"{s['system']}: key-fact recall {100 * (s['recall'] or 0):.0f}%")
-           for s in summary]
-    sec = [(s["system"], s["median_seconds"], f"{s['system']}: median {s['median_seconds'] or 0:.0f} s per answer")
-           for s in summary]
+def _ok(r, hand):
+    if hand and r.get("manual") not in ("", None):
+        return int(float(r["manual"]) == 1)
+    return int(r["accuracy"])
+
+
+def ablation_items(rows, hand):
+    """Base mode and each variant on exactly the same questions: (label, share right, median s)."""
+    systems = {r["system"] for r in rows}
+    variants = sorted(s for s in systems if "+" in s)
+    groups = {}
+    for v in variants:
+        groups.setdefault(v.split("+")[0], []).append(v)
+    if "hybrid" in systems and "hybrid2" in systems:
+        groups.setdefault("hybrid", []).append("hybrid2")
+    out = []
+    for base, mine in sorted(groups.items()):
+        ids = set.intersection(*[{r["id"] for r in rows if r["system"] == x} for x in [base] + mine])
+        if not ids:
+            continue
+        for system in [base] + mine:
+            rs = [r for r in rows if r["system"] == system and r["id"] in ids]
+            times = sorted(float(r["seconds"]) for r in rs if r["seconds"] not in ("", None))
+            med = times[len(times) // 2] if len(times) % 2 else (times[len(times) // 2 - 1] + times[len(times) // 2]) / 2
+            out.append((system, sum(_ok(r, hand) for r in rs) / len(rs), med, len(ids)))
+    return out
+
+
+def page(summary, rows=None):
+    hand = any(s.get("manual_n") for s in summary)
+    key = "manual_correct" if hand else "accuracy"
+    main = [s for s in summary if "+" not in s["system"]]
+    name = lambda s: f"{s['system']} ({s['answers']})"
+    acc = [(name(s), s[key], f"{s['system']}: {100 * (s[key] or 0):.0f}% of {s['answers']} answers") for s in main]
+    rec = [(name(s), s["recall"], f"{s['system']}: key-fact recall {100 * (s['recall'] or 0):.0f}%") for s in main]
+    sec = [(name(s), s["median_seconds"], f"{s['system']}: median {s['median_seconds'] or 0:.0f} s per answer")
+           for s in main]
+    abl = ablation_items(rows or [], hand)
     max_s = nice_max(max([v for _, v, _ in sec if v] or [1]))
     pct = lambda v: f"{100 * v:.0f}%"
     parts = [
@@ -123,16 +154,31 @@ def page(summary, ablation_rows=None):
         "<meta name='viewport' content='width=device-width, initial-scale=1'>",
         f"<title>Evaluation charts</title><style>{CSS}</style></head><body><main>",
         "<h1>Campus YouBike Guide: evaluation</h1>",
-        "<p class='note'>Automatic key-fact scoring. Numbers in brackets are question counts. "
-        "Hover a bar or cell for details; the tables are in summary.md.</p>",
-        "<section><h2>Accuracy by system</h2><p class='sub'>All key facts present, or a correct "
-        "\"not in the data\" for unanswerable questions</p>", bars(acc, pct, 1.0), "</section>",
-        "<section><h2>Key-fact recall by system</h2><p class='sub'>Share of key facts found, answerable "
-        "questions</p>", bars(rec, pct, 1.0), "</section>",
+        "<p class='note'>" + ("Accuracy checked by hand; recall scored automatically from key facts. " if hand
+                              else "Automatic key-fact scoring. ")
+        + "Numbers in brackets are answer counts: global and DRIFT ran on the multi-hop and global questions "
+        "only. Hover a bar or cell for details; the tables are in summary.md.</p>",
+        "<section><h2>Accuracy by system</h2><p class='sub'>" + ("Answers fully right, checked by hand"
+        if hand else "All key facts present, or a correct \"not in the data\" for unanswerable questions")
+        + "</p>", bars(acc, pct, 1.0), "</section>",
         "<section><h2>Accuracy by question type</h2><p class='sub'>Share of questions answered fully, "
-        "by type; – = not run for that system</p>", heatmap(summary), "</section>",
+        "by type" + (", checked by hand" if hand else "") + "; – = not run for that system</p>",
+        heatmap(main, "man_" if hand else "acc_"), "</section>",
         "<section><h2>Time per answer</h2><p class='sub'>Median seconds on the CPU laptop</p>",
         bars(sec, lambda v: f"{v:.0f}", max_s), "</section>",
-        "</main></body></html>",
+        "<section><h2>Key-fact recall by system</h2><p class='sub'>Share of key facts found, answerable "
+        "questions (automatic)</p>", bars(rec, pct, 1.0), "</section>",
     ]
+    if abl:
+        n = abl[0][3]
+        parts += [
+            f"<section><h2>Ablation: one change at a time</h2><p class='sub'>The same {n} questions (multi-hop "
+            "and station); answers fully right" + (", checked by hand" if hand else "") + "</p>",
+            bars([(a, v, f"{a}: {100 * v:.0f}% of {k} answers") for a, v, _, k in abl], pct, 1.0),
+            "<p class='sub' style='margin-top:14px'>Median seconds per answer on the same questions</p>",
+            bars([(a, m, f"{a}: median {m:.0f} s") for a, _, m, _ in abl], lambda v: f"{v:.0f}",
+                 nice_max(max(m for _, _, m, _ in abl))),
+            "</section>",
+        ]
+    parts.append("</main></body></html>")
     return "".join(parts)

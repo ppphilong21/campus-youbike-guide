@@ -23,6 +23,9 @@ Question groups and why they are there:
 - **station** (6): facts from the station profiles (nearest station, docks, usual busy hours).
 - **unanswerable** (4): not in the data; the right answer is to say so (faithfulness).
 - **multilingual** (4): Vietnamese and Chinese versions, to test place recognition and retrieval.
+- **suitability** (8, R01–R08): "which station should I use, and why", often at a given time; the
+  answer needs the gate to use, a station's usual shortage hours or a backup station. Added for
+  Hybrid v2.
 
 Check of the set itself: every reference answer passes its own key facts (44/44).
 
@@ -49,10 +52,16 @@ python eval/run_eval.py --tag main --modes drift --types global
 # 3. ablation, same index, one setting changed at a time
 python eval/run_eval.py --tag noreports --variant noreports --modes local --types multihop,station
 python eval/run_eval.py --tag 8b --variant 8b --modes local --types multihop,station
-# 4. scores
-python eval/score_eval.py eval/results/main.jsonl eval/results/noreports.jsonl eval/results/8b.jsonl
+# 4. Hybrid v2: the 18 questions with a recognised place, then the 8 suitability questions in 4 modes
+python eval/run_eval.py --plan route
+# 5. scores
+python eval/score_eval.py eval/results/main.jsonl eval/results/noreports.jsonl eval/results/8b.jsonl eval/results/route.jsonl
 python eval/score_eval.py eval/results/main.jsonl --show M01,U02
 ```
+
+Hybrid v2 reads `data/raw/snapshots.csv` when it answers, so its facts change as the log grows.
+Each Hybrid v2 answer saves the facts it was given (`facts` in the results file), so a result can
+be checked later against exactly what the model saw.
 
 Options: `--ids F01,M03` (only these), `--types`, `--dry-run` (list what would run),
 `--root` (another GraphRAG folder), `--response-type` (default `Single Paragraph`, shorter than the
@@ -82,6 +91,13 @@ and `per_answer.csv` next to the results. The charts need no extra packages.
 | false refusals | answerable questions answered with "not in the data" and no key fact |
 | file hit | the search context contains a text chunk from the expected input file (global search reads reports only, so n/a) |
 | median / mean s | seconds per answer on this computer |
+
+**Hand labels.** `eval/results/manual_labels.csv` (columns `system,id,manual,note`) marks each answer
+right (1), partly right (0.5) or wrong (0) after reading it against the reference answer. When the file
+exists, `score_eval.py` reports these labels next to the automatic scores, with the agreement between
+the two, and the charts use them. Rules used: an answer is right only if every part of the question is
+answered correctly; extra details are fine unless they contradict the answer; a self-contradicting
+answer counts as partly right; "not in the data" for an answerable question is wrong.
 
 Matching ignores case, hyphens, thousands separators and NT$ spellings ("NT$ 40", "40 NTD" and
 "40元" all match "40"). It is automatic, so read a sample of answers with `--show`, and report any

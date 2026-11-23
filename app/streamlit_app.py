@@ -153,7 +153,7 @@ def show_how(res, g):
     if g is None or not gc.get("entities"):
         st.caption("This answer's context has no graph entities to draw.")
         return
-    hybrid_mode = res["mode"] == "hybrid" and res.get("place")
+    hybrid_mode = res["mode"] in ("hybrid", "hybrid2") and res.get("place")
     nodes, edges = kg_view.answer_subgraph(
         g, gc["entities"], gc["relationships"],
         place=res["place"] if hybrid_mode else None,
@@ -199,7 +199,7 @@ def show_answer(res, graph):
                 f'{ui.esc(res["question"])}</b></div>', unsafe_allow_html=True)
     for note in res.get("notes", []):
         st.warning(note)
-    if res["mode"] == "hybrid":
+    if res["mode"] in ("hybrid", "hybrid2"):
         if res["stations"]:
             meta = {s["sno"]: s for s in hybrid.campus_stations()}
             with st.container(key="hero"):

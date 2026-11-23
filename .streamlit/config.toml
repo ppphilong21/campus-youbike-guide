@@ -1,0 +1,14 @@
+# Theme for the Campus YouBike Guide app (read when you run streamlit from the project folder).
+[theme]
+base = "light"
+primaryColor = "#005BAC"
+backgroundColor = "#F5F7FB"
+secondaryBackgroundColor = "#EEF3F9"
+textColor = "#0E2A47"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false

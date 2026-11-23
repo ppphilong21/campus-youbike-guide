@@ -31,6 +31,15 @@ question ──► Basic | Local | Global | DRIFT | Hybrid ──► answer with
 - **DRIFT**: a Global primer followed by Local follow-up questions.
 - **Hybrid** (this project): recognises the campus place in the question, computes the three nearest
   stations from coordinates, adds them to a Local search, and shows live station cards and a map.
+- **Hybrid v2, graph route** (this project, `app/graph_route.py`): starts from the places named in the
+  question and follows paths place → gate → station on two graphs. A campus layer built by code
+  gives exact facts (distances, nearest gates, where each station is marked, and what the bike-count
+  snapshots show at the time asked, with the number of snapshots behind it; an hour that was never
+  sampled is reported as unknown). The GraphRAG graph gives the
+  relationships on paths of up to three steps between the place, the gates and the candidate
+  stations, filtered by entity type from the schema, with hub entities skipped, plus the source
+  text behind them. The model must cite facts, relationships and sources, and explains why a
+  station suits the question, not only which one is nearest.
 
 ## Quick start (Windows 11, PowerShell)
 
@@ -52,7 +61,7 @@ To rebuild it: `graphrag index --root graphrag` (about 6 hours on a CPU laptop; 
 | --- | --- | --- |
 | Place coordinates | `python scripts/georef.py` | lat, lng in `data/buildings.csv` |
 | Campus stations | `python scripts/fetch_stations.py --radius 300` | `data/stations_campus.csv` |
-| Bike count history | `python scripts/snapshot.py` every 15 min (Task Scheduler) | `data/raw/snapshots.csv` |
+| Bike count history | `scripts/snapshot.py` every 15 min, day and night, on GitHub Actions (`.github/workflows/snapshot.yml`); before 23 Nov on the laptop, only while it was awake | `data/raw/snapshots.csv` on the `snapshots` branch |
 | Campus text | `python scripts/make_building_docs.py` | `graphrag/input/*.txt` |
 | Station text | `python scripts/make_station_profiles.py --date 2026-11-18` | `graphrag/input/station_*.txt` |
 | Index | `graphrag index --root graphrag` | `graphrag/output/` |
@@ -61,6 +70,7 @@ To rebuild it: `graphrag index --root graphrag` (about 6 hours on a CPU laptop; 
 | Debug one question | `python scripts/debug_retrieval.py graphrag "your question"` | what local search retrieved |
 | App | `python -m streamlit run app/streamlit_app.py` | demo at http://localhost:8501 |
 | Evaluation | `python eval/run_eval.py --plan full`, then `python eval/score_eval.py ...` | `eval/results/` |
+| Hybrid v2 evaluation | `python eval/run_eval.py --plan route` | `eval/results/route.jsonl` |
 
 `graphrag/settings.yaml` is set up for Ollama on a CPU laptop: `qwen3:4b-instruct-2507-q4_K_M`
 (the plain `qwen3:4b` tag keeps thinking even with `think: false`), `bge-m3` embeddings, one
@@ -82,7 +92,9 @@ DRIFT (2 primer folds, depth 1, 3 follow-ups). The entity types and the extracti
 ## Evaluation
 
 44 questions with reference answers (`eval/questions.csv`): 12 fact, 12 multi-hop, 6 global,
-6 station, 4 unanswerable, 4 multilingual (Vietnamese, Chinese). Every one of the 192 answers was
+6 station, 4 unanswerable, 4 multilingual (Vietnamese, Chinese). Eight suitability questions
+(R01–R08: "which station should I use, and why", often at a given time) were added for Hybrid v2;
+their answers need the gate, the station's shortage hours or a backup station. Every one of the 242 answers was
 checked by hand (right, partly right, wrong); an automatic key-fact score is reported next to it.
 Details: `eval/README.md`; tables and charts: `eval/results/summary.md`, `summary.html`.
 
@@ -102,6 +114,68 @@ Ablation on the same 18 multi-hop and station questions, no re-indexing:
 | Local without community reports | **67%** | 266 |
 | Local with `qwen3:8b` writing the answer | 50% | 340 |
 
+Hybrid v2 (graph route) on the 18 questions where a campus place is recognised, plus the 8
+suitability questions answered by all four modes:
+
+| Mode | 18 place questions | 8 suitability questions | All 26 | Median seconds (26) |
+| --- | ---: | ---: | ---: | ---: |
+| Basic | 72% | 25% | 58% | 109 |
+| Local | 56% | 12% | 42% | 261 |
+| Hybrid | 72% | 38% | 62% | 255 |
+| **Hybrid v2** | **89%** | **100%** | **92%** | **130** |
+
+Hybrid v2 prompts are about 4,000 tokens (median, instructions included), while Local search fills a
+data context of up to 7,000 tokens (`max_context_tokens`), which is probably the main reason it is
+faster. Its snapshot facts used the log up to 23 November (5 weekdays); every answer stores the
+facts it was given (`facts` in `eval/results/route.jsonl`).
+
+### How the answers were scored
+
+- Each question has a reference answer written from the input files, its key facts (all must
+  appear; spelling variants accepted) and the files that hold the answer.
+- Automatic score: key facts matched in the answer text (case, hyphens, thousands separators and
+  NT$ spellings normalised). It agrees with the hand labels on 86–91% of answers, but it is
+  lenient with answers that quote many numbers, so the hand labels are the main result.
+- Hand labels: right (1), partly right (0.5) or wrong (0), with a note for every answer that is not
+  right (`eval/results/manual_labels.csv`).
+- Also measured: key-fact recall, false refusals, whether the retrieved context contains the
+  expected file, and seconds per answer.
+
+### Faithfulness and groundedness
+
+- **No invented answers to out-of-scope questions**: the 4 unanswerable questions were answered
+  "not in the data" in every mode (12 of 12 for Basic, Local and Hybrid).
+- **Citations**: 95–100% of answers cite the records they used (`[Data: Sources (…); Entities (…)]`).
+  The app turns these into a "Sources used" list and draws the part of the graph the model saw.
+- **Retrieval**: the context contained a chunk from the expected file for 90% (Basic), 88% (Local)
+  and 85% (Hybrid) of the answerable questions.
+- **Live numbers are grounded by design**: bike and dock counts go from the API to the station
+  cards and never through the model, so the model cannot misquote them.
+- **Where it fails**: a citation does not guarantee a correct claim. DRIFT invented opening hours;
+  the 4B model miscalculated fees (NT$80 for a NT$40 ride); acronyms missing from the data (CSIE)
+  caused false refusals (8% of answerable questions).
+
+### Is the difference real?
+
+Paired McNemar tests on the same questions (fully right or not):
+
+| Comparison | Questions | Only first right | Only second right | p |
+| --- | ---: | ---: | ---: | ---: |
+| Basic vs Local | 44 | 10 | 4 | 0.18 |
+| Basic vs Hybrid | 44 | 8 | 5 | 0.58 |
+| Local vs Hybrid | 44 | 1 | 4 | 0.38 |
+| Local vs Local without reports | 18 | 0 | 3 | 0.25 |
+| Local vs Local with qwen3:8b | 18 | 2 | 2 | 1.00 |
+| Hybrid vs Hybrid v2 | 26 | 1 | 9 | **0.02** |
+| Hybrid vs Hybrid v2, place questions only | 18 | 1 | 4 | 0.38 |
+| Hybrid vs Hybrid v2, suitability only | 8 | 0 | 5 | 0.06 |
+| Basic vs Hybrid v2 | 26 | 1 | 10 | **0.01** |
+
+None of the differences between the GraphRAG modes and Basic on the 44 questions is significant.
+Hybrid v2 is the only change with a significant gain (p < 0.05 on 26 questions), and most of it
+comes from the suitability questions, which were written together with Hybrid v2 (see the
+limitations).
+
 Main findings:
 
 1. On a corpus this small (60 chunks), vector RAG is strong: ten chunks cover a sixth of the corpus.
@@ -112,12 +186,58 @@ Main findings:
 4. Community reports hurt Local search here; removing them raised accuracy from 9 to 12 of 18.
 5. A larger answer model does not help: the bottleneck is retrieval, not generation.
 6. All four unanswerable questions were refused in every mode (no invented answers).
+7. Hybrid v2 answers all 8 suitability questions right, against 1 to 3 of 8 for the other modes.
+   The others name the nearest station but miss that it is short at the time asked (R06, R07) or
+   contradict themselves about it (R03). The route facts (gate, place on the map, snapshot counts
+   at that hour) are computed by code, so the model only has to compare them.
+8. On the 18 place questions Hybrid v2 is right on 16, including the two that Hybrid's changed
+   search query broke (F10, L02). Its two misses: the units of a building reached through the
+   graph but whose own file was not in the context (M04), and the model choosing the wrong
+   relationship although the right one was in its context (M11).
+9. The automatic score cannot tell a recommended station from a mentioned one: on the suitability
+   questions it gives Hybrid 88%, the hand labels 38%. For "which one and why" questions, reading
+   the answers is necessary.
 
 ## Local AI deployment
 
-Everything runs on a CPU-only Windows laptop through Ollama. Indexing took 206 model calls and
-433,235 tokens (about 5.8 hours of model time). With `seed: 42` the answers are repeatable: when
-Hybrid recognises no place it gives exactly the Local answer, word for word.
+Everything runs on a CPU-only Windows laptop through Ollama (about 10 tokens per second when
+generating). Indexing took 206 model calls and 433,235 tokens (about 5.8 hours of model time).
+With `seed: 42` the answers are repeatable: when Hybrid recognises no place it gives exactly the
+Local answer, word for word. Choices made for the CPU: the non-thinking instruct model (the
+thinking model spent thousands of tokens per call), one request at a time, 400-token chunks so
+extraction answers are not cut off, and a lighter DRIFT. Even so, an answer takes 1.5 to 4 minutes,
+and DRIFT about 27, which is too slow for live use; see the limitations below.
+
+## Limitations and future work
+
+- **Small test set**: 44 questions, one corpus, differences not significant. A larger question
+  set (and a second annotator for the hand labels) would make the comparison firmer.
+- **The suitability questions favour Hybrid v2**: R01–R08 were written while Hybrid v2 was being
+  built, and their references use the same station files that Hybrid v2's facts come from. The
+  other modes had the same files in their index, but the 100% should be read as "the design works
+  on the cases it was designed for", not as a general result. New suitability questions written
+  by someone else would be a fairer test.
+- **Retrieval, not generation, is the weak point**: Local search can anchor on hub entities and
+  Hybrid's station list changes the search query. Hybrid v2 avoids both by starting from the
+  places in the question and filtering paths by entity type; its remaining retrieval gap is that
+  the source text of an entity reached through the graph (M04) is not always added. Next: add the
+  file of every place on the chosen path.
+- **Data gaps**: common names and acronyms (CSIE, 資工系 variants) should be added to the building
+  files as aliases; the corpus has no opening hours or phone numbers.
+- **Community reports** add generic text to Local search on a small corpus; a smaller report
+  share or none (`local_search.community_prop`) worked better here.
+- **Speed on a CPU**: 4 minutes per answer is acceptable for a demo but not for daily use. A GPU,
+  a shorter context (fewer than 7,000 tokens) or caching common questions would help.
+- **The bike-count history is thin**: up to 22 November the log has 42 weekday snapshots on 4 days,
+  only between 14:00-18:00 and 21:00-24:00, because the laptop slept at other times. A "usual
+  shortage" such as Main Gate at 21:00-22:00 rests on 4 snapshots from 2 evenings. The station files
+  in the index state their sample size; Hybrid v2 reads the log when a question is asked, reports the
+  number of snapshots and days, calls an hour with fewer than 3 snapshots on 2 days "too few to say",
+  and an hour never sampled "not known". From 23 November the snapshots run on GitHub Actions
+  around the clock; get the latest log with `git fetch origin snapshots` and
+  `git checkout origin/snapshots -- data/raw/snapshots.csv`. No re-indexing is needed.
+- **The 4B model is weak at arithmetic**: fee questions could be answered by code from the fee
+  table, the same way live counts are, instead of by the model.
 
 ## Layout
 
