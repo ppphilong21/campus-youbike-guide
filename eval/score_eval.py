@@ -33,9 +33,9 @@ import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability")
+TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability", "route")
 MODE_ORDER = ("basic", "local", "hybrid", "hybrid2", "global", "drift")
-ID_ORDER = "FMGSULR"
+ID_ORDER = "FMGSULRW"
 PAIRS = [("hybrid", "hybrid2")]  # modes compared on the same questions, like the ablation variants
 
 REFUSAL = (

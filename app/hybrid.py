@@ -91,16 +91,17 @@ def live_cards(snos, feed, distances=None):
 
 
 def answer(question, mode="hybrid", k=3, root=None, response_type="Multiple Paragraphs", overrides=None,
-           live=True):
+           live=True, here=None):
     """Return a dict with the answer, sources, recognised place, station cards and timing.
 
     root: GraphRAG folder to query (default: GRAPHRAG_ROOT, normally graphrag/).
     response_type, overrides: passed to run_query (the evaluation uses them).
     live: False skips the YouBike API call (the evaluation does not need live counts).
+    here: the user's location {"lat", "lng", "accuracy"}; only Hybrid v2 uses it.
     """
     if mode == "hybrid2":
         import graph_route  # imported here: graph_route imports this module
-        return graph_route.answer(question, root=root, overrides=overrides, live=live)
+        return graph_route.answer(question, root=root, overrides=overrides, live=live, here=here)
     place = ns.find_place(question, buildings())
     result = {"question": question, "mode": mode, "place": place["name"] if place else None,
               "place_coords": (place["lat"], place["lng"]) if place and place["lat"] is not None else None,

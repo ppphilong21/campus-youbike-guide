@@ -40,6 +40,17 @@ question ──► Basic | Local | Global | DRIFT | Hybrid ──► answer with
   stations, filtered by entity type from the schema, with hub entities skipped, plus the source
   text behind them. The model must cite facts, relationships and sources, and explains why a
   station suits the question, not only which one is nearest.
+- **Walking routes** (`app/walk_route.py`): the 13 panoramas of the 360° campus tour are the nodes of
+  a walkway graph and its hotspot links are the edges (`data/walkway_nodes.csv`, `walkway_edges.csv`,
+  built by `scripts/make_walkway.py`). For "how do I get from IB to TR?", Hybrid v2 joins both places
+  to their nearest panoramas, finds the shortest path (Dijkstra) and gives it to the model as a fact
+  to put into words. The app draws the route on the map and links each step to its 360° view.
+  Questions without route words are not affected.
+- **Your location**: when the page opens, the browser asks whether to share the location (it works
+  on localhost or https). Once allowed, Hybrid v2 starts from it when the question names no place or
+  says "here". The location button sits next to the mode menu and shows the nearest campus place
+  ("Around …" when the browser reports an error wider than 60 m). Its menu lets the user type the
+  building they are in when the position is off, ask the device again, or stop using the location.
 
 ## Quick start (Windows 11, PowerShell)
 
@@ -71,6 +82,11 @@ To rebuild it: `graphrag index --root graphrag` (about 6 hours on a CPU laptop; 
 | App | `python -m streamlit run app/streamlit_app.py` | demo at http://localhost:8501 |
 | Evaluation | `python eval/run_eval.py --plan full`, then `python eval/score_eval.py ...` | `eval/results/` |
 | Hybrid v2 evaluation | `python eval/run_eval.py --plan route` | `eval/results/route.jsonl` |
+| Hybrid v2 ablation | `python eval/run_eval.py --plan route_ablation` | `eval/results/h2_nograph.jsonl`, `h2_nofacts.jsonl` |
+| Walking route evaluation | `python eval/run_eval.py --plan walk` | `eval/results/walk.jsonl` |
+| Walkway graph | `python scripts/make_walkway.py` | `data/walkway_nodes.csv`, `walkway_edges.csv` |
+| Graph quality | `python scripts/graph_quality.py` | `eval/results/graph_quality.md` |
+| Recorded demo answers | `python scripts/cache_demo.py` | `data/demo_cache/*.json` |
 
 `graphrag/settings.yaml` is set up for Ollama on a CPU laptop: `qwen3:4b-instruct-2507-q4_K_M`
 (the plain `qwen3:4b` tag keeps thinking even with `think: false`), `bge-m3` embeddings, one
@@ -81,13 +97,21 @@ DRIFT (2 primer folds, depth 1, 3 follow-ups). The entity types and the extracti
 
 ## The app
 
-- **Ask**: a question box with a retrieval-mode menu (with the measured time of each mode),
-  the nearest station with live bikes and free docks, a campus map, backup stations, the
-  answer with its citations, "How this answer was found" (the part of the graph the model
-  saw) and the sources.
+- **Ask**: a question box with a retrieval-mode menu (with the measured time of each mode; Hybrid v2,
+  shown as **Hybrid** in the menu, is the default and replaces the first Hybrid, which is kept only
+  for the evaluation) and the user's location next to it; the place asked about (a photo when `data/place_photos.csv` has one, the
+  nearest 360° view); the walking route; the nearest station with live
+  bikes and free docks, a campus map, backup stations, the answer with its citations, "How this
+  answer was found" (the part of the graph the model saw) and the sources.
 - **Knowledge graph**: the whole graph, coloured by entity type or by community, with a
   focus mode and entity details.
-- Each station card links to a 360° iStaging tour when `data/virtual_tours.csv` has one.
+- Each station card links to a 360° iStaging tour when `data/virtual_tours.csv` has one
+  (columns `station_id,station_name,tour_url`); each walkway step links to its panorama when
+  `data/walkway_nodes.csv` has a `tour_url`.
+- **Recorded answers for a live demo**: open the app as http://localhost:8501/?recorded=1 and the
+  questions recorded beforehand with `scripts/cache_demo.py` are answered at once, labelled
+  "Recorded answer", with live station counts (an answer takes 1.5 to 4 minutes on the CPU laptop).
+  Other questions are answered by the model as usual.
 
 ## Evaluation
 
@@ -238,12 +262,36 @@ and DRIFT about 27, which is too slow for live use; see the limitations below.
   `git checkout origin/snapshots -- data/raw/snapshots.csv`. No re-indexing is needed.
 - **The 4B model is weak at arithmetic**: fee questions could be answered by code from the fee
   table, the same way live counts are, instead of by the model.
+- **The extracted graph is noisy** (`python scripts/graph_quality.py`, `eval/results/graph_quality.md`):
+  24 of 348 entities (7%) got a type outside the 16 of the schema (for example `yobike station`,
+  `fees`, `program`); 16 entities are written twice (`IC CARD` and `IC_CARD`, `MAIN GATE` and
+  `MAIN_GATE`); 82 entities (24%) have no relationship; a few relationships are wrong ("The Main
+  Gate is located on Lane 155"). The graph view shows the 7 stray types under the schema type they
+  belong to (`TYPE_FIX` in `app/kg_view.py`, display only; the entity details still say what the
+  model wrote). Hybrid v2 keeps the raw types, so its results stay comparable, and works around part
+  of the noise with aliases and type filters. Fixing it at the source needs a clean-up step (merge
+  duplicates, map stray types to the schema) and a new index.
+- **Walking routes cover only the photographed paths**: the walkway graph has the 13 panoramas of
+  the 360° tour on two routes (Main Gate → Library → Back Gate, Library → Lane 155 → NTU Cancer
+  Center station) and Keelung Road in front of the Main Gate. A place far from them gets a
+  straight-line last step, which the facts say.
+  The panorama positions come from the campus map until the photos are taken. The route questions
+  (W01–W05) were written together with the feature, so they show that it works, not how well.
+- **Location**: browsers share the position only on localhost or https and after the user allows
+  it. A laptop locates by Wi-Fi, which can be 100 m or more off (in one test from the 2nd Student
+  Dormitory the browser reported ±183 m and named the T2 Cafeteria, 108 m away); a phone with GPS
+  is usually within 5–20 m. Typing the building in the location menu covers the laptop case.
+- **Future work**: availability forecasts per hour once the snapshot log covers a few weeks (or the
+  TDX history API, which keeps station counts since June 2021); a walkway graph for the whole
+  campus; a LINE bot; other campuses with the same pipeline.
 
 ## Layout
 
 ```
-app/        Streamlit app (streamlit_app.py, ui.py), hybrid logic, GraphRAG query wrapper, graph views
-data/       campus places, units, YouBike markers and stations, virtual tour links
+app/        Streamlit app (streamlit_app.py, ui.py, components/geolocation), hybrid logic, graph route
+            (graph_route.py), walking routes (walk_route.py), recorded answers (demo_cache.py), graph views
+data/       campus places, units, YouBike markers and stations, walkway graph, virtual tour links,
+            place photos, recorded demo answers
 eval/       questions, evaluation runner, scorer, charts, results and hand labels
 graphrag/   settings, prompts, input texts, output (the index); cache/ is not committed
 scripts/    data preparation and debugging

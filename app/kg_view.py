@@ -34,6 +34,11 @@ TYPE_COLORS = {
     "USER_GROUP": "#d6336c",
 }
 OTHER_COLOR = "#adb5bd"
+# Types the 4B model made up or misspelled during extraction (24 entities, see scripts/graph_quality.py),
+# shown as the schema type they belong to. The index itself is unchanged: "type_raw" keeps what the
+# model wrote, and Hybrid v2 still uses that, so its evaluation results stay comparable.
+TYPE_FIX = {"YOBIKE_STATION": "YOUBIKE_STATION", "DORMITORY": "BUILDING", "FEES": "FEE",
+            "SECURITY_POST": "FACILITY", "PROGRAM": "DEPARTMENT", "BICYCLE": "SERVICE", "LIMIT": "RULE"}
 LIVE_COLOR = "#f08c00"
 COMMUNITY_COLORS = ["#1c7ed6", "#f08c00", "#2f9e44", "#e03131", "#7048e8", "#0ca678", "#c2255c", "#5c940d",
                     "#1098ad", "#e8590c", "#4263eb", "#ae3ec9", "#868e96", "#d6336c", "#495057", "#74b816"]
@@ -86,7 +91,8 @@ def load_graph(root):
         return None
     ents = pd.read_parquet(out / "entities.parquet")
     rels = pd.read_parquet(out / "relationships.parquet")
-    ents["type"] = ents["type"].fillna("").astype(str).str.upper()
+    ents["type_raw"] = ents["type"].fillna("").astype(str).str.upper()
+    ents["type"] = ents["type_raw"].str.replace(" ", "_").map(lambda t: TYPE_FIX.get(t, t))
     ents["description"] = ents["description"].fillna("")
 
     # Source files of each entity: entity -> text units -> documents
@@ -259,5 +265,6 @@ def entity_details(g, title):
     rels = g["relationships"]
     links = [(r["target"] if r["source"] == title else r["source"], r["description"])
              for r in rels.to_dict("records") if title in (r["source"], r["target"])]
-    return {"title": title, "type": row.get("type", ""), "degree": int(row.get("degree") or 0),
+    return {"title": title, "type": row.get("type", ""), "type_raw": row.get("type_raw", ""),
+            "degree": int(row.get("degree") or 0),
             "description": row.get("description", ""), "files": g["files"].get(title, []), "links": links}

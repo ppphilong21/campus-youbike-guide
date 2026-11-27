@@ -31,11 +31,14 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "app"))
 
 MODES = ("basic", "local", "hybrid", "hybrid2", "global", "drift")
-TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability")
+TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability", "route")
 VARIANTS = {
     "default": {},
     "8b": {"completion_models": {"default_completion_model": {"model": "qwen3:8b"}}},
     "noreports": {"local_search": {"community_prop": 0.0}},
+    # Hybrid v2 ablation: answers without the GraphRAG context (computed facts only), or without the facts
+    "h2_nograph": {"hybrid2": {"graph": False}},
+    "h2_nofacts": {"hybrid2": {"facts": False}},
 }
 
 
@@ -129,6 +132,8 @@ def ask(row, mode, args, overrides, lookup):
 
 
 # --plan full: the whole evaluation in one command, step by step (each step resumes on its own)
+ROUTE_IDS = ("F10,M01,M02,M03,M04,M05,M06,M11,M12,S01,S02,S03,S04,S06,U02,U03,L02,L03,"
+             "R01,R02,R03,R04,R05,R06,R07,R08")
 PLANS = {
     "full": [
         {"tag": "main", "modes": "basic,local,hybrid", "types": ""},
@@ -142,6 +147,15 @@ PLANS = {
         {"tag": "route", "modes": "hybrid2", "types": "",
          "ids": "F10,M01,M02,M03,M04,M05,M06,M11,M12,S01,S02,S03,S04,S06,U02,U03,L02,L03"},
         {"tag": "route", "modes": "basic,local,hybrid,hybrid2", "types": "suitability", "ids": ""},
+    ],
+    # Hybrid v2 ablation on the same 26 questions: which part does the work, the graph or the computed facts?
+    "route_ablation": [
+        {"tag": "h2_nograph", "variant": "h2_nograph", "modes": "hybrid2", "types": "", "ids": ROUTE_IDS},
+        {"tag": "h2_nofacts", "variant": "h2_nofacts", "modes": "hybrid2", "types": "", "ids": ROUTE_IDS},
+    ],
+    # walking routes on the walkway graph (the 360° tour), against plain RAG and GraphRAG
+    "walk": [
+        {"tag": "walk", "modes": "basic,local,hybrid2", "types": "route", "ids": ""},
     ],
 }
 

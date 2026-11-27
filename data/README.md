@@ -9,6 +9,11 @@ All campus data comes from the official Taiwan Tech campus layout map (國立臺
 | `map_youbike_markers.csv` | 7 | The YouBike markers drawn on the map (six 2.0, one 1.0). Only the Back Gate station has a known station number so far (500101027, from OpenStreetMap). Fill `sno` for the others from the API. |
 | `georef_anchors.csv` | 5 | Points used to turn map pixels into coordinates. One is filled from OpenStreetMap; fill at least three more from Google Maps. |
 | `map_points.png` | | The map with every point drawn on it, for checking positions. |
+| `walkway_nodes.csv` | 13 | The panoramas of the 360° campus tour (Tour A) as walkway points: position, where to stand, the YouBike station if the panorama is at one, and the iStaging link (`tour_url`, empty until the tour is published). Written by `scripts/make_walkway.py`; rows with `coord_source` "verified" are kept. |
+| `walkway_edges.csv` | 12 | The hotspot links between those panoramas: the walking paths used for routes. |
+| `virtual_tours.csv` | | (create when the tours are published) `station_id,station_name,tour_url`: the 360° tour of each station, shown on its station card. |
+| `place_photos.csv` | | Photos of places taken by the team: `place_id,file,credit` (see `photos/README.md`). |
+| `demo_questions.txt` | 8 | Questions recorded by `scripts/cache_demo.py` for the live demo; the recordings go to `demo_cache/`. |
 
 ## Getting coordinates
 

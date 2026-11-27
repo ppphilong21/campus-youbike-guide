@@ -34,6 +34,7 @@ import requests
 import hybrid
 import kg_view
 from graph_query import GRAPHRAG_ROOT, _merge
+import walk_route  # noqa: E402
 
 SNAPSHOTS = hybrid.ROOT / "data" / "raw" / "snapshots.csv"   # written by scripts/snapshot.py
 MIN_SNAPSHOTS, MIN_DAYS = 3, 2   # fewer than this in an hour: "too few snapshots to say"
@@ -311,7 +312,8 @@ def _kg(root, mtime):
             continue
         G.add_edge(s, t, rid=int(r["human_readable_id"]), desc=str(r["description"] or ""),
                    weight=float(r.get("weight") or 1), units=units)
-    types = dict(zip(ents["title"], ents["type"]))
+    # the types as the model extracted them (kg_view maps stray types to the schema for display only)
+    types = dict(zip(ents["title"], ents["type_raw"] if "type_raw" in ents else ents["type"]))
     degree = dict(zip(ents["title"], ents["degree"].fillna(0).astype(int)))
     cut = max(15, int(ents["degree"].quantile(0.95))) if len(ents) else 15
     hubs = {t for t, d in degree.items() if d >= cut and types.get(t) not in NEVER_HUB}
@@ -464,9 +466,14 @@ If a Source and the Facts disagree about when a station is short, follow the Fac
 
 TASK_GENERAL = """Answer the question directly in one or two short paragraphs. Use the relationships to connect the places involved (for example a department to its building, a building to a gate or a road)."""
 
+TASK_ROUTE = """The question asks how to walk from one place to another. Follow the walking route in the Facts step by step, in plain sentences: where to start, the places you pass, where you arrive, and the total distance and time. Use the source texts only to say how to recognise a place. Do not add turns, streets or shortcuts that are not in the data. End with one sentence saying that each step can be seen in 360° in the app."""
+
+ROUTE_LINE = """
+If the Facts include a walking route, add a **Way:** line that follows it."""
+
 
 def build_data(facts, ctx):
-    lines = ["Facts:"] + [f"F{i}: {f}" for i, f in enumerate(facts, 1)]
+    lines = ["Facts:"] + ([f"F{i}: {f}" for i, f in enumerate(facts, 1)] or ["(none)"])
     lines += ["", "Relationships (source -> target: description):"]
     lines += [f"[{r['id']}] {r['source']} -> {r['target']}: {r['description']}" for r in ctx["relationships"]] or ["(none)"]
     lines += ["", "Sources:"]
@@ -501,11 +508,61 @@ def chat(system, question, root, overrides=None):
     return data["message"]["content"], data.get("prompt_eval_count"), data.get("eval_count")
 
 
-def answer(question, root=None, response_type=None, overrides=None, live=True, k=K_STATIONS):
-    """Same result shape as hybrid.answer, with mode 'hybrid2'."""
+PHOTOS = hybrid.ROOT / "data" / "place_photos.csv"
+
+
+def photo_for(place_id):
+    """A photo of the place taken by the team (data/place_photos.csv), if there is one."""
+    for r in hybrid._read_csv(PHOTOS):
+        if r.get("place_id") == place_id and r.get("file") and (hybrid.ROOT / r["file"]).exists():
+            return {"file": str(hybrid.ROOT / r["file"]), "credit": r.get("credit", "")}
+    return None
+
+
+def place_card(p, here=None):
+    """What the app shows about a place: names, photo and nearest 360° view."""
+    pano = walk_route.nearest_panorama(p)
+    return {"name": p["name"], "name_zh": p.get("name_zh", ""), "code": p.get("code", ""),
+            "map_no": p.get("map_no", ""), "category": p.get("category", ""),
+            "photo": photo_for(p.get("id")),
+            "panorama": ({"id": pano[0]["id"], "name": pano[0]["name"], "url": pano[0].get("tour_url", ""),
+                          "metres": pano[1]} if pano else None)}
+
+
+def here_place(here):
+    """The user's location (from the browser, or a place they picked) as a place."""
+    if not here or here.get("lat") is None:
+        return None
+    return {"id": "here", "name": "your location", "name_zh": "", "category": "here", "doc_group": "",
+            "lat": float(here["lat"]), "lng": float(here["lng"]), "patterns": [], "aliases": "",
+            "accuracy": here.get("accuracy")}
+
+
+def nearest_place(point, max_m=150):
+    best = min(((hybrid.ns.haversine_m(point["lat"], point["lng"], b["lat"], b["lng"]), b)
+                for b in hybrid.buildings() if b.get("lat") is not None and b.get("category") != "neighbour"),
+               key=lambda x: x[0], default=None)
+    return best[1] if best and best[0] <= max_m else None
+
+
+def answer(question, root=None, response_type=None, overrides=None, live=True, k=K_STATIONS, here=None):
+    """Same result shape as hybrid.answer, with mode 'hybrid2'.
+
+    here: the user's location {"lat", "lng", "accuracy"} or None. It is used when the question
+    names no place, or says "here" / "from my location".
+    overrides: GraphRAG settings, plus {"hybrid2": {"facts": False}} or {"hybrid2": {"graph": False}}
+    for the ablation (answers without the computed facts, or without the GraphRAG context).
+    """
     root = Path(root or GRAPHRAG_ROOT)
     start = time.perf_counter()
+    opts = dict((overrides or {}).get("hybrid2") or {})
+    overrides = {key: v for key, v in (overrides or {}).items() if key != "hybrid2"} or None
     places = [p for p in find_places(question, hybrid.buildings()) if p.get("lat") is not None]
+    me = here_place(here)
+    use_here = bool(me) and (not places or walk_route.mentions_here(question))
+    if me and not places:
+        near = nearest_place(me)
+        places = [me] + ([near] if near else [])
     if not places:  # nothing to start a route from: same as Local search
         res = hybrid.answer(question, "local", root=root, overrides=overrides)
         res["mode"] = "hybrid2"
@@ -527,6 +584,30 @@ def answer(question, root=None, response_type=None, overrides=None, live=True, k
     cards = hybrid.live_cards(snos, feed, dist)
     # a question that is not about stations gets only the nearest one as a side fact
     facts, campus_edges = campus_facts(root, places, cards if stations_wanted else cards[:1], hour, returning)
+    if me and me.get("accuracy"):
+        facts.append(f"The user's location comes from their device and is accurate to about {round(me['accuracy'])} m.")
+
+    # walking route on the walkway graph (the 360° tour), only for questions that ask for one
+    walk = None
+    if walk_route.is_route_question(question):
+        named = [p for p in places if p is not me]
+        ends = None
+        if me and (use_here or len(named) == 1) and named:
+            ends = (me, named[0])
+        elif len(named) >= 2:
+            ends = walk_route.ordered_ends(question, named)
+        if ends:
+            r = walk_route.route(*ends)
+            if r:
+                facts.append(walk_route.route_fact(r))
+                walk = dict(r, origin_pt=(ends[0]["lat"], ends[0]["lng"]), dest_pt=(ends[1]["lat"], ends[1]["lng"]))
+                campus_edges.append((ends[0]["name"], ends[1]["name"], f"walk about {r['metres']} m"))
+    target = next((p for p in places if p is not me), None)
+    if walk:
+        target = next((p for p in places if p["name"] == walk["dest"]), target)
+    card = place_card(target, me) if target else None
+    if opts.get("facts") is False:   # ablation: no computed facts
+        facts = []
 
     kg = kg_for(root)
     ctx = {"relationships": [], "sources": [], "entities": []}
@@ -544,8 +625,14 @@ def answer(question, root=None, response_type=None, overrides=None, live=True, k
         docs = [p["doc_group"] for p in places if p.get("doc_group")]
         docs += [f"station_{c['sno']}" for c in cards[:3]] if stations_wanted else []
         ctx = graph_context(kg, place_titles, gate_titles, station_titles, docs)
+    if opts.get("graph") is False:   # ablation: no relationships and no source texts from GraphRAG
+        ctx = {"relationships": [], "sources": [], "entities": []}
 
-    system = SYSTEM.format(task=TASK_STATION if stations_wanted else TASK_GENERAL, data=build_data(facts, ctx))
+    if walk and not stations_wanted:
+        task = TASK_ROUTE
+    else:
+        task = (TASK_STATION + (ROUTE_LINE if walk else "")) if stations_wanted else TASK_GENERAL
+    system = SYSTEM.format(task=task, data=build_data(facts, ctx))
     text, p_tok, c_tok = chat(system, question, root, overrides)
 
     sources = [("facts", f"F{i}", f) for i, f in enumerate(facts, 1)]
@@ -562,5 +649,9 @@ def answer(question, root=None, response_type=None, overrides=None, live=True, k
                     "entities": [{"entity": e} for e in ctx["entities"]], "facts": facts},
         "route": {"places": [p["name"] for p in places], "hour": hour, "returning": returning,
                   "campus_edges": campus_edges},
+        "walk": walk, "place_card": card,
+        "here": ({"lat": me["lat"], "lng": me["lng"], "accuracy": me.get("accuracy"),
+                  "near": places[1]["name"] if place is me and len(places) > 1 else None} if me else None),
+        "ablation": opts or None,
         "prompt_tokens": p_tok, "completion_tokens": c_tok,
     }

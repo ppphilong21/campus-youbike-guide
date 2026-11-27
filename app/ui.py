@@ -13,17 +13,20 @@ INK = "#0E2A47"
 ACCENT = "#FF9D19"  # YouBike orange
 GREEN, ORANGE, RED, GREY = "#16A34A", "#F59E0B", "#DC2626", "#9CA3AF"
 
-# Retrieval modes: key, name, what it does, median seconds per answer measured on the CPU laptop
-# (eval/results/summary.md, 21-22 Nov 2026), icon.
+# Retrieval modes in the menu: key, name, what it does, median seconds per answer measured on the CPU
+# laptop (eval/results/summary.md, 21-23 Nov 2026), icon. Hybrid v2 is the default.
 MODES = [
-    ("hybrid", "Hybrid", "Local search + nearest stations + live YouBike", 244, ":material/route:"),
-    ("hybrid2", "Hybrid v2", "Graph route: place → gate → station, with reasons", 120, ":material/alt_route:"),
+    ("hybrid2", "Hybrid", "Graph route: place → gate → station, live YouBike, with reasons", 130, ":material/alt_route:"),
     ("local", "Local", "Entity-centred GraphRAG", 237, ":material/hub:"),
     ("global", "Global", "Community summaries, for overview questions", 388, ":material/public:"),
     ("drift", "DRIFT", "Iterative exploration, slow on a CPU", 1603, ":material/explore:"),
     ("basic", "Basic", "Traditional RAG, text chunks only", 93, ":material/description:"),
 ]
-MODE = {m[0]: m for m in MODES}
+# The menu calls Hybrid v2 (graph route, eval key "hybrid2") just "Hybrid". The first Hybrid (Local
+# search + nearest stations) is not in the menu: Hybrid v2 replaces it.
+# It stays in the code and in the evaluation (eval/run_eval.py --modes hybrid).
+HIDDEN = [("hybrid", "Hybrid v1", "Local search + nearest stations + live YouBike", 244, ":material/route:")]
+MODE = {m[0]: m for m in MODES + HIDDEN}
 
 
 def minutes(seconds):
@@ -114,10 +117,22 @@ section[data-testid="stSidebar"] [data-baseweb="select"] svg { fill:#E8F0FA; }
 .st-key-composer [data-testid="stFormSubmitButton"] button p { font-weight:700; color:var(--ink); }
 .st-key-composer [data-testid="stFormSubmitButton"] button:hover { background:#FFB04A; color:var(--ink); }
 .st-key-modebar { gap:6px; }
-.st-key-modebar [data-testid="stPopover"] button { background:transparent; border:1px solid transparent; border-radius:10px;
-  padding:3px 10px; min-height:32px; color:var(--ink); }
+/* mode menu and location menu side by side, 12 px apart; the hint takes the rest of the row */
+.st-key-modebar [data-testid="stHorizontalBlock"] { gap:12px !important; flex-wrap:nowrap !important; }
+.st-key-modebar :is([data-testid="stColumn"], [data-testid="column"]) { flex:0 0 auto !important; width:auto !important;
+  min-width:0 !important; }
+.st-key-modebar :is([data-testid="stColumn"], [data-testid="column"]):last-child { flex:1 1 auto !important; }
+.st-key-modebar [data-testid="stPopover"] button { background:#fff; border:1px solid var(--line); border-radius:10px;
+  padding:3px 10px; min-height:34px; color:var(--ink); white-space:nowrap; }
 .st-key-modebar [data-testid="stPopover"] button p { font-weight:600; font-size:13.5px; color:var(--ink); }
-.st-key-modebar [data-testid="stPopover"] button:hover { background:var(--soft); border-color:var(--line); }
+.st-key-modebar [data-testid="stPopover"] button:hover { background:var(--soft); border-color:#B9CFEA; }
+.st-key-loc_on [data-testid="stPopover"] button { background:#E8F1FB; border-color:#9CC3EA; }
+.st-key-loc_on [data-testid="stPopover"] button :is(p, span) { color:#00467F; }
+.st-key-geobox { position:absolute; width:0; height:0; overflow:hidden; }
+.st-key-locmenu { padding:0 8px 4px; gap:8px; }
+[data-testid="stPopoverBody"]:has(.st-key-locmenu) { width:400px !important; min-width:0; max-width:calc(100vw - 32px); }
+.st-key-locmenu [data-testid="stButton"], .st-key-locmenu [data-testid="stButton"] button { width:100%; }
+.st-key-locmenu [data-testid="stButton"] button { justify-content:flex-start; border-radius:10px; }
 .yb-hint { color:var(--muted); font-size:12.5px; text-align:right; padding-top:6px; }
 [data-testid="stPopoverBody"] { border-radius:14px; padding:8px 6px; min-width:340px; border:1px solid var(--line);
   box-shadow:0 12px 32px rgba(27,31,79,.14); }
@@ -187,6 +202,23 @@ section[data-testid="stSidebar"] [data-baseweb="select"] svg { fill:#E8F0FA; }
 .yb-other .yb-stat { border:none; padding:0; background:none; }
 .yb-bar { height:5px; background:var(--soft); border-radius:999px; margin:12px 0 8px; overflow:hidden; }
 .yb-bar i { display:block; height:100%; border-radius:999px; }
+
+/* place card and walking route */
+.st-key-placecard { background:#fff; border:1px solid var(--line); border-radius:20px; padding:16px 20px; margin-top:14px; }
+.st-key-placecard [data-testid="stImage"] img { border-radius:14px; }
+.yb-kicker2 { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.yb-place-name { font-family:var(--display); font-weight:600; font-size:24px; color:var(--ink); margin:4px 0 2px;
+  letter-spacing:-.01em; }
+.yb-place .yb-actions { margin-top:10px; }
+.yb-route { border-top:1px solid var(--line); margin-top:14px; padding-top:12px; }
+.yb-steps { display:flex; flex-wrap:wrap; align-items:center; gap:6px 4px; margin:8px 0 2px; }
+.yb-step { display:inline-flex; align-items:baseline; gap:5px; background:var(--soft); border:1px solid var(--line);
+  border-radius:10px; padding:5px 10px; font-size:13px; color:var(--ink) !important; text-decoration:none !important; }
+.yb-step small { color:var(--muted); font-size:11.5px; }
+.yb-step i { font-style:normal; font-size:10.5px; font-weight:700; color:var(--navy); }
+a.yb-step:hover { border-color:var(--navy); }
+.yb-step.end { background:#FFF4E3; border-color:var(--hero-line); font-weight:600; }
+.yb-arrow { color:var(--muted); font-size:13px; }
 
 /* answer card */
 .st-key-answer { background:#fff; border:1px solid var(--line); border-radius:20px; padding:20px 26px 16px; margin-top:22px; }
@@ -271,7 +303,8 @@ def empty_state(stats):
     kpis = "".join(f'<div class="yb-kpi"><b>{v}</b><span>{esc(k)}</span></div>' for k, v in stats)
     return ('<div class="yb-empty"><h4>Ask about getting around campus by YouBike</h4>'
             '<p>Pick a question on the left or type your own. Hybrid mode adds the nearest stations, '
-            'live bike counts and a map. Everything runs on this laptop.</p>'
+            'live bike counts and a map, and explains the way from your place to the station. '
+            'Everything runs on this laptop.</p>'
             f'<div class="yb-kpis">{kpis}</div></div>')
 
 
@@ -409,9 +442,61 @@ def answer_chips(res):
     m = MODE.get(res["mode"])
     chips = [f'<span class="yb-chip">Mode <b>{esc(m[1] if m else res["mode"])}</b></span>',
              f'<span class="yb-chip"><b>{res["seconds"]:.0f} s</b> on this laptop</span>']
+    if res.get("cached"):
+        chips.append(f'<span class="yb-chip">Recorded answer <b>{esc(res["cached"])}</b></span>')
     if res.get("place"):
         chips.append(f'<span class="yb-chip">Place <b>{esc(res["place"])}</b></span>')
     return f'<div class="yb-chips">{"".join(chips)}</div>'
+
+
+def place_card_html(card, kicker="Place in your question"):
+    """Names of the place and its nearest 360° view."""
+    sub = " · ".join(x for x in (card.get("name_zh"), card.get("code"),
+                                 f"no. {card['map_no']} on the campus map" if card.get("map_no") else "") if x)
+    pano = card.get("panorama")
+    if pano and pano.get("url"):
+        view = (f'<a class="yb-btn" href="{esc(pano["url"])}" target="_blank" rel="noopener">{TOUR_SVG} See it in 360° ↗</a>')
+    elif pano:
+        view = (f'<span class="yb-btn off" title="Add the panorama link to data/walkway_nodes.csv (tour_url)">'
+                f'{TOUR_SVG} 360° view · coming soon</span>')
+    else:
+        view = ""
+    note = (f'<div class="yb-updated" style="margin-top:8px">Nearest 360° view: {esc(pano["name"])}, about '
+            f'{pano["metres"]} m away.</div>' if pano else
+            '<div class="yb-updated" style="margin-top:8px">No 360° view near this place yet.</div>')
+    return (f'<div class="yb-place"><div class="yb-kicker2">◎ {esc(kicker)}</div>'
+            f'<div class="yb-place-name">{esc(card["name"])}</div><div class="yb-zh">{esc(sub)}</div>'
+            + (f'<div class="yb-actions">{view}</div>' if view else "") + f'{note}</div>')
+
+
+def route_html(walk, nodes):
+    """The walking route as steps; each photographed step links to its 360° view when there is one."""
+    head = (f'<div class="yb-kicker2">➜ Walking route · about {walk["metres"]} m · {walk["minutes"]} min</div>')
+    if walk.get("direct"):
+        why = ("The photographed paths do not go that way, so walk straight there."
+               if walk.get("detour") else "Close enough to walk straight there.")
+        body = (f'<div class="yb-steps"><span class="yb-step end">{esc(walk["origin"][:1].upper() + walk["origin"][1:])}</span><span class="yb-arrow">→</span>'
+                f'<span class="yb-step end">{esc(walk["dest"])} <small>{walk["metres"]} m</small></span></div>'
+                f'<div class="yb-updated">{why}</div>')
+        return f'<div class="yb-route">{head}{body}</div>'
+    steps = []
+    last = len(walk["stops"]) - 1
+    for i, (label, nid, m) in enumerate(walk["stops"]):
+        label = label[:1].upper() + label[1:]
+        url = (nodes.get(nid) or {}).get("tour_url", "") if nid else ""
+        dist = f" <small>{m} m</small>" if i else ""
+        tag = " <i>360°</i>" if nid else ""
+        cls = "yb-step end" if i in (0, last) else "yb-step"
+        if url:
+            steps.append(f'<a class="{cls}" href="{esc(url)}" target="_blank" rel="noopener">{esc(label)}{tag}{dist}</a>')
+        else:
+            steps.append(f'<span class="{cls}" title="{esc(nid or "")}">{esc(label)}{tag}{dist}</span>')
+    arrow = '<span class="yb-arrow">→</span>'
+    body = f'<div class="yb-steps">{arrow.join(steps)}</div>'
+    note = "Along the paths photographed for the 360° tour; steps marked 360° open that view once the tour is linked."
+    if walk.get("off_route"):
+        note += " " + " and ".join(walk["off_route"]) + " is off those paths, so that part is a straight-line estimate."
+    return f'<div class="yb-route">{head}{body}<div class="yb-updated">{esc(note)}</div></div>'
 
 
 def answer_title(res, text):
@@ -420,6 +505,8 @@ def answer_title(res, text):
         core = re.sub(r"[()]", " ", name).split()
         if name.lower() in text.lower() or (core and all(w.lower() in text.lower() for w in core)):
             return f"Why {nice(name)}?"
+    if res.get("walk"):
+        return "How to get there"
     return "Answer"
 
 

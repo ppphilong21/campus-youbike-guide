@@ -5,7 +5,7 @@ screenshots for the slides. Light and dark mode follow the system setting.
 """
 from html import escape
 
-TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability")
+TYPES = ("fact", "multihop", "global", "station", "unanswerable", "multilingual", "suitability", "route")
 LIGHT_STEPS = ["#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]  # 100..700
 
 CSS = """

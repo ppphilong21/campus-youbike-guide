@@ -1,7 +1,8 @@
 # Evaluation
 
 `questions.csv` is the test set for comparing the retrieval modes (Basic, Local, Global, DRIFT,
-Hybrid) and for the ablation. Every reference answer comes from a file in `graphrag/input`.
+Hybrid, Hybrid v2) and for the ablation. Every reference answer comes from a file in `graphrag/input`
+(the route questions also from `data/walkway_nodes.csv`).
 
 | Column | Meaning |
 | --- | --- |
@@ -26,8 +27,12 @@ Question groups and why they are there:
 - **suitability** (8, R01–R08): "which station should I use, and why", often at a given time; the
   answer needs the gate to use, a station's usual shortage hours or a backup station. Added for
   Hybrid v2.
+- **route** (5, W01–W05): "how do I get from A to B" in English, Vietnamese and Chinese. The
+  reference follows the walkway graph of the 360° tour; the key facts only ask for what any correct
+  answer must say (for example that TR is on Lane 155). Added with the walking routes, so they
+  show that the feature works rather than measure it.
 
-Check of the set itself: every reference answer passes its own key facts (44/44).
+Check of the set itself: every reference answer passes its own key facts (57/57).
 
 ## Running
 
@@ -54,8 +59,12 @@ python eval/run_eval.py --tag noreports --variant noreports --modes local --type
 python eval/run_eval.py --tag 8b --variant 8b --modes local --types multihop,station
 # 4. Hybrid v2: the 18 questions with a recognised place, then the 8 suitability questions in 4 modes
 python eval/run_eval.py --plan route
-# 5. scores
-python eval/score_eval.py eval/results/main.jsonl eval/results/noreports.jsonl eval/results/8b.jsonl eval/results/route.jsonl
+# 5. Hybrid v2 ablation on the same 26 questions: without the GraphRAG context, without the facts
+python eval/run_eval.py --plan route_ablation
+# 6. walking routes: Basic, Local and Hybrid v2 on the 5 route questions
+python eval/run_eval.py --plan walk
+# 7. scores
+python eval/score_eval.py eval/results/main.jsonl eval/results/noreports.jsonl eval/results/8b.jsonl eval/results/route.jsonl eval/results/h2_nograph.jsonl eval/results/h2_nofacts.jsonl eval/results/walk.jsonl
 python eval/score_eval.py eval/results/main.jsonl --show M01,U02
 ```
 
@@ -74,6 +83,8 @@ Ablation variants (no re-indexing; the overrides apply to those queries only):
 | --- | --- | --- |
 | `noreports` | local search without community reports (`community_prop: 0`) | do community summaries help local answers? |
 | `8b` | answers written by `qwen3:8b` instead of the 4B model | is the answer model the bottleneck? |
+| `h2_nograph` | Hybrid v2 without the GraphRAG relationships and source texts (computed facts only) | does the graph add anything beyond the facts computed by code? |
+| `h2_nofacts` | Hybrid v2 without the computed facts (graph relationships and sources only; the candidate stations are still chosen by distance) | can the graph alone explain the choice? |
 
 The graph itself is ablated by the main comparison: `basic` is vector search over text chunks with
 no graph, `local` adds entities, relationships and reports, `hybrid` adds the distance step.

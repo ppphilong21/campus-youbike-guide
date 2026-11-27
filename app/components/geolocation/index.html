@@ -1,0 +1,47 @@
+<!doctype html>
+<!--
+  The browser position as a tiny, invisible Streamlit component (no build step, no extra package).
+  The location button and its menu are drawn by Streamlit (app/streamlit_app.py, location_menu);
+  this frame only asks the browser:
+    - on the first render when args.auto is set, so the "allow location" prompt shows when the page opens;
+    - each time args.req grows (the "Use my device location" button).
+  It speaks the Streamlit component protocol directly (postMessage to the parent page):
+  componentReady -> render (args from Python) -> setComponentValue (the position, back to Python).
+  Browsers only share the location on https or on localhost, and only after the user allows it.
+-->
+<html>
+<head><meta charset="utf-8"><style>html, body { margin: 0; height: 0; overflow: hidden; }</style></head>
+<body>
+<script>
+  const send = (type, extra) => window.parent.postMessage(Object.assign({ isStreamlitMessage: true, type }, extra), "*");
+  const reply = (value) => send("streamlit:setComponentValue", { dataType: "json", value: Object.assign(value, { ts: Date.now() }) });
+
+  let started = false, lastReq = 0;
+  window.addEventListener("message", (e) => {
+    if (!e.data || e.data.type !== "streamlit:render") return;
+    const args = e.data.args || {};
+    const req = args.req || 0;
+    if (!started) {            // first render (also after the page comes back from the graph view)
+      started = true;
+      lastReq = req;
+      if (args.auto) locate();
+    } else if (req > lastReq) { // the user asked again
+      lastReq = req;
+      locate();
+    }
+    send("streamlit:setFrameHeight", { height: 0 });
+  });
+
+  function locate() {
+    if (!navigator.geolocation) { reply({ error: "unsupported" }); return; }
+    navigator.geolocation.getCurrentPosition(
+      (p) => reply({ lat: p.coords.latitude, lng: p.coords.longitude, accuracy: p.coords.accuracy }),
+      (err) => reply({ error: err.code === 1 ? "blocked" : "unavailable" }),
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 });
+  }
+
+  send("streamlit:componentReady", { apiVersion: 1 });
+  send("streamlit:setFrameHeight", { height: 0 });
+</script>
+</body>
+</html>

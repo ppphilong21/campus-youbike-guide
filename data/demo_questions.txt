@@ -1,0 +1,9 @@
+# Questions recorded by scripts/cache_demo.py for the live demo (one per line).
+Which station near the library should I use at 8 am, and how do I recognise it?
+I live in the dormitory. Which station should I use to get to the CSIE department?
+What should a new student know before using YouBike around campus?
+I have a class in the T4 building until 21:30 on a weekday. Which YouBike station should I head for, and is there anything to watch out for?
+How do I get from IB to TR?
+Đi từ thư viện đến toà TR như thế nào?
+I need to return a bike near the IA Building around 3 pm. Which station should I use?
+Which building is the Department of Electrical Engineering in?
