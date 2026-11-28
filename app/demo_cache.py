@@ -59,6 +59,9 @@ def load(mode, question, live=True):
                                                 {c["sno"]: c.get("distance_m") for c in cards})
         except Exception as exc:  # keep the recorded cards without counts
             res["live_error"] = f"{type(exc).__name__}: {exc}"
+    if res.get("stations") and res.get("tour_start"):  # 360° links start at the place in the question
+        import graph_route
+        graph_route.lead_tours(res["stations"], res["tour_start"])
     if res.get("place_card"):  # photo paths and links are rebuilt on this computer
         import graph_route
         b = next((x for x in hybrid.buildings() if x["name"] == res["place_card"]["name"]), None)

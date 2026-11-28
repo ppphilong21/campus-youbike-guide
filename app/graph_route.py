@@ -519,14 +519,48 @@ def photo_for(place_id):
     return None
 
 
+def units_in(place_id):
+    """Departments and offices in a building (data/campus_units.csv)."""
+    return [u["unit_en"] for u in hybrid._read_csv(hybrid.ROOT / "data" / "campus_units.csv")
+            if place_id and u.get("building_id") == place_id and u.get("unit_en")]
+
+
+def first_sentence(text):
+    m = re.match(r"(.+?[.!?])(\s|$)", (text or "").strip())
+    return m.group(1) if m else (text or "").strip()
+
+
 def place_card(p, here=None):
-    """What the app shows about a place: names, photo and nearest 360° view."""
-    pano = walk_route.nearest_panorama(p)
+    """What the app shows about a place: names, where it is, what is inside, photo, 360° view.
+
+    Everything here comes from the data files, not from the language model."""
+    pano = walk_route.panorama_for(p)
     return {"name": p["name"], "name_zh": p.get("name_zh", ""), "code": p.get("code", ""),
             "map_no": p.get("map_no", ""), "category": p.get("category", ""),
+            "about": first_sentence(p.get("description")),
+            "units": units_in(p.get("id")),
             "photo": photo_for(p.get("id")),
             "panorama": ({"id": pano[0]["id"], "name": pano[0]["name"], "url": pano[0].get("tour_url", ""),
                           "metres": pano[1]} if pano else None)}
+
+
+def lead_tours(cards, start_id):
+    """Point each station card's 360° button at the tour panorama of the place in the question.
+
+    The iStaging tour opens at that panorama (?index=N) and the user follows the hotspots to the
+    station; tour_path is the list of panoramas on the way (shortest, on the walkway graph).
+    Stations with no panorama on the way keep their own link (hybrid.tours)."""
+    nodes = walk_route.graph()[0]
+    start = nodes.get(start_id) if start_id else None
+    if not start or not start.get("tour_url"):
+        return cards
+    for c in cards:
+        path = walk_route.tour_path(start_id, c["sno"])
+        if path:
+            c["tour_url"] = start["tour_url"]
+            c["tour_from"] = {"id": start_id, "name": start["name"]}
+            c["tour_path"] = path
+    return cards
 
 
 def here_place(here):
@@ -582,6 +616,9 @@ def answer(question, root=None, response_type=None, overrides=None, live=True, k
     except Exception as exc:  # network down, API changed, ...
         live_error = f"{type(exc).__name__}: {exc}"
     cards = hybrid.live_cards(snos, feed, dist)
+    # the 360° tour starts where the question starts and leads to each station
+    start_node = walk_route.tour_start(place)
+    lead_tours(cards, start_node["id"] if start_node else None)
     # a question that is not about stations gets only the nearest one as a side fact
     facts, campus_edges = campus_facts(root, places, cards if stations_wanted else cards[:1], hour, returning)
     if me and me.get("accuracy"):
@@ -649,7 +686,7 @@ def answer(question, root=None, response_type=None, overrides=None, live=True, k
                     "entities": [{"entity": e} for e in ctx["entities"]], "facts": facts},
         "route": {"places": [p["name"] for p in places], "hour": hour, "returning": returning,
                   "campus_edges": campus_edges},
-        "walk": walk, "place_card": card,
+        "walk": walk, "place_card": card, "tour_start": start_node["id"] if start_node else None,
         "here": ({"lat": me["lat"], "lng": me["lng"], "accuracy": me.get("accuracy"),
                   "near": places[1]["name"] if place is me and len(places) > 1 else None} if me else None),
         "ablation": opts or None,

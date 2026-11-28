@@ -46,7 +46,12 @@ def campus_stations():
 
 
 def tours():
-    return {t["station_id"]: t for t in _read_csv(ROOT / "data" / "virtual_tours.csv")}
+    """360° tour link of each station: data/virtual_tours.csv, else the Tour A panorama taken at
+    the station (data/walkway_nodes.csv, rows with a station number)."""
+    links = {r["sno"]: {"station_id": r["sno"], "tour_url": r["tour_url"]}
+             for r in _read_csv(ROOT / "data" / "walkway_nodes.csv") if r.get("sno") and r.get("tour_url")}
+    links.update({t["station_id"]: t for t in _read_csv(ROOT / "data" / "virtual_tours.csv") if t.get("tour_url")})
+    return links
 
 
 def _short(name):

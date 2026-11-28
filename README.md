@@ -43,9 +43,11 @@ question ──► Basic | Local | Global | DRIFT | Hybrid ──► answer with
 - **Walking routes** (`app/walk_route.py`): the 13 panoramas of the 360° campus tour are the nodes of
   a walkway graph and its hotspot links are the edges (`data/walkway_nodes.csv`, `walkway_edges.csv`,
   built by `scripts/make_walkway.py`). For "how do I get from IB to TR?", Hybrid v2 joins both places
-  to their nearest panoramas, finds the shortest path (Dijkstra) and gives it to the model as a fact
-  to put into words. The app draws the route on the map and links each step to its 360° view.
-  Questions without route words are not affected.
+  to the walkway graph (at the panorama that shows the place when that adds at most 40 m, else at
+  the nearest one), finds the shortest path (Dijkstra) and gives it to the model as a fact to put
+  into words. The app draws the route on the map, links each step to its 360° view and offers
+  "Walk it in 360°", which opens the tour next to the start place. Questions without route words
+  are not affected.
 - **Your location**: when the page opens, the browser asks whether to share the location (it works
   on localhost or https). Once allowed, Hybrid v2 starts from it when the question names no place or
   says "here". The location button sits next to the mode menu and shows the nearest campus place
@@ -99,15 +101,23 @@ DRIFT (2 primer folds, depth 1, 3 follow-ups). The entity types and the extracti
 
 - **Ask**: a question box with a retrieval-mode menu (with the measured time of each mode; Hybrid v2,
   shown as **Hybrid** in the menu, is the default and replaces the first Hybrid, which is kept only
-  for the evaluation) and the user's location next to it; the place asked about (a photo when `data/place_photos.csv` has one, the
-  nearest 360° view); the walking route; the nearest station with live
+  for the evaluation) and the user's location next to it; the place asked about (where it is, the departments and offices
+  inside from `data/campus_units.csv`, a photo when `data/place_photos.csv` has one, and the Tour A
+  panorama that shows it); the walking route; the nearest station with live
   bikes and free docks, a campus map, backup stations, the answer with its citations, "How this
   answer was found" (the part of the graph the model saw) and the sources.
 - **Knowledge graph**: the whole graph, coloured by entity type or by community, with a
   focus mode and entity details.
-- Each station card links to a 360° iStaging tour when `data/virtual_tours.csv` has one
-  (columns `station_id,station_name,tour_url`); each walkway step links to its panorama when
-  `data/walkway_nodes.csv` has a `tour_url`.
+- 360° links: every Tour A panorama has its iStaging link in `data/walkway_nodes.csv` (`tour_url`,
+  `?index=N` for panorama A0N). Each walkway step and each place card opens its panorama; a place
+  card uses the panorama whose `shows` column names the place, else the nearest one within 60 m.
+  Station cards lead the user to the station in the tour: "Walk there in 360°" opens the tour at
+  the panorama of the place in the question (or the user's location) and lists the panoramas to
+  click through to the station (A02, A08 or A13), so the walk starts with a view of where the
+  question starts. A station outside the tour points to the nearest station that is in it. These
+  links change only the buttons, not the facts given to the model. Without a start place, a
+  station card opens its own panorama; a link in `data/virtual_tours.csv`
+  (`station_id,station_name,tour_url`), if that file exists, takes its place.
 - **Recorded answers for a live demo**: open the app as http://localhost:8501/?recorded=1 and the
   questions recorded beforehand with `scripts/cache_demo.py` are answered at once, labelled
   "Recorded answer", with live station counts (an answer takes 1.5 to 4 minutes on the CPU laptop).
@@ -275,7 +285,8 @@ and DRIFT about 27, which is too slow for live use; see the limitations below.
   the 360° tour on two routes (Main Gate → Library → Back Gate, Library → Lane 155 → NTU Cancer
   Center station) and Keelung Road in front of the Main Gate. A place far from them gets a
   straight-line last step, which the facts say.
-  The panorama positions come from the campus map until the photos are taken. The route questions
+  Tour A was photographed on 28 Nov 2026, but the panorama positions still come from the campus
+  map; the real shooting spots can replace them (`coord_source` "verified"). The route questions
   (W01–W05) were written together with the feature, so they show that it works, not how well.
 - **Location**: browsers share the position only on localhost or https and after the user allows
   it. A laptop locates by Wi-Fi, which can be 100 m or more off (in one test from the 2nd Student

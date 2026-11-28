@@ -12,7 +12,13 @@ Coordinates: map pixels are turned into lat/lng with the same affine fit as
 scripts/georef.py (data/georef_anchors.csv). Panoramas at a YouBike station take the
 station's own coordinates from data/stations_campus.csv. Once the photos are taken, put
 the real coordinates in walkway_nodes.csv with coord_source "verified"; re-running this
-script keeps them. Put each panorama's iStaging link in the tour_url column.
+script keeps them.
+
+Links: tour_url opens the panorama in the iStaging tour (TOUR_A, ?index=N with N the number on
+the Tour A map, A01 = 1). A link typed into walkway_nodes.csv by hand is kept.
+shows: the campus places (ids from data/buildings.csv) each panorama stands next to. The place
+card opens this panorama for them, even when another panorama is a little closer to the
+building's centre.
 
 Usage: python scripts/make_walkway.py
 """
@@ -40,11 +46,31 @@ PANORAMAS = [
     ("A12", "Lane 155 entrance", "at the Lane 155 parking lot entrance with the security post beside TR", 205, 1020, ""),
     ("A13", "Cancer Center station", "on Lane 155 opposite the Gymnasium and IA, by the docks", 125, 823, "500101028"),
 ]
+# Tour A on iStaging: ?index=N opens panorama N (A01 = 1, ..., A13 = 13)
+TOUR_A = "https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index={n}"
+
+# places each panorama stands next to (from "where to stand" above)
+SHOWS = {
+    "A01": ["gate_main", "security_main", "ib"],
+    "A02": ["t1", "rb", "scooter_front"],
+    "A03": ["library", "shuttle_huaxia"],
+    "A04": ["ad"],
+    "A05": ["e1", "ma"],
+    "A06": ["dorm2"],
+    "A07": ["gate_back", "haoyang"],
+    "A08": ["ee", "go_station", "scooter_back"],
+    "A09": ["t4", "au"],
+    "A10": ["tennis", "caf1", "post"],
+    "A11": ["volleyball", "basketball", "ceremonial_stand"],
+    "A12": ["tr", "parking_ln155", "security_ln155"],
+    "A13": ["gym", "ia", "ntu_cancer"],
+}
+
 # hotspot links of Tour A (all two-way)
 LINKS = [("A01", "A02"), ("A01", "A03"), ("A03", "A04"), ("A04", "A05"), ("A05", "A06"), ("A06", "A07"),
          ("A07", "A08"), ("A03", "A09"), ("A09", "A10"), ("A10", "A11"), ("A11", "A12"), ("A12", "A13")]
 
-FIELDS = ["id", "name", "where", "map_x", "map_y", "lat", "lng", "coord_source", "sno", "tour_url"]
+FIELDS = ["id", "name", "where", "map_x", "map_y", "lat", "lng", "coord_source", "sno", "tour_url", "shows"]
 
 
 def read(path):
@@ -66,7 +92,8 @@ def main():
     for pid, name, where, x, y, sno in PANORAMAS:
         prev = old.get(pid, {})
         row = {"id": pid, "name": name, "where": where, "map_x": x, "map_y": y, "sno": sno,
-               "tour_url": prev.get("tour_url", "")}
+               "tour_url": prev.get("tour_url") or TOUR_A.format(n=int(pid[1:])),
+               "shows": "|".join(SHOWS.get(pid, []))}
         if prev.get("coord_source") == "verified":
             row.update(lat=prev["lat"], lng=prev["lng"], coord_source="verified")
         elif sno in stations:

@@ -210,6 +210,10 @@ section[data-testid="stSidebar"] [data-baseweb="select"] svg { fill:#E8F0FA; }
 .yb-place-name { font-family:var(--display); font-weight:600; font-size:24px; color:var(--ink); margin:4px 0 2px;
   letter-spacing:-.01em; }
 .yb-place .yb-actions { margin-top:10px; }
+.yb-lead { margin-top:8px; line-height:1.45; max-width:52ch; }
+.yb-place-about { font-size:14.5px; line-height:1.5; color:var(--ink); margin-top:8px; max-width:62ch; }
+.yb-place-units { font-size:13.5px; line-height:1.5; color:var(--muted); margin-top:6px; max-width:70ch; }
+.yb-place-units b { color:var(--ink); font-weight:600; }
 .yb-route { border-top:1px solid var(--line); margin-top:14px; padding-top:12px; }
 .yb-steps { display:flex; flex-wrap:wrap; align-items:center; gap:6px 4px; margin:8px 0 2px; }
 .yb-step { display:inline-flex; align-items:baseline; gap:5px; background:var(--soft); border:1px solid var(--line);
@@ -330,11 +334,34 @@ def hero_head(res):
             '<span class="yb-pill">Closest</span></div>')
 
 
-def tour_button(url):
+def tour_button(card):
+    """The station's 360° button. With tour_from it opens the tour where the question starts and the
+    user follows the arrows to the station (tour_path); otherwise it opens the station's own view."""
+    url = card.get("tour_url")
+    if url and card.get("tour_from"):
+        return f'<a class="yb-btn" href="{esc(url)}" target="_blank" rel="noopener">{TOUR_SVG} Walk there in 360° ↗</a>'
     if url:
         return f'<a class="yb-btn" href="{esc(url)}" target="_blank" rel="noopener">{TOUR_SVG} 360° Tour ↗</a>'
-    return (f'<span class="yb-btn off" title="Add this station\'s iStaging link to data/virtual_tours.csv">'
+    return (f'<span class="yb-btn off" title="No panorama of this station in Tour A yet">'
             f'{TOUR_SVG} 360° Tour · coming soon</span>')
+
+
+def tour_lead_text(card, place=""):
+    """Where the 360° tour starts and the panoramas on the way to the station (escaped HTML text)."""
+    path, start = card.get("tour_path"), card.get("tour_from")
+    if not path or not start:
+        return ""
+    if len(path) == 1:
+        return f'The 360° tour opens at the station ({esc(start["id"])}).'
+    near = f", next to {esc(place)}" if place and place != start["name"] and place != "your location" else ""
+    clicks = len(path) - 1
+    return (f'The 360° tour opens at {esc(start["name"])} ({esc(start["id"])}){near}. '
+            f'Follow the arrows: {" → ".join(esc(n) for n in path)} ({clicks} click{"s" if clicks > 1 else ""}).')
+
+
+def tour_lead_html(card, place=""):
+    text = tour_lead_text(card, place)
+    return f'<div class="yb-updated yb-lead">{text}</div>' if text else ""
 
 
 def hero_left(res, meta_by_sno):
@@ -360,14 +387,24 @@ def hero_left(res, meta_by_sno):
         warn = '<div class="yb-warn">No bikes here right now. The stations below are the next closest.</div>'
     elif card.get("active") is False:
         warn = '<div class="yb-warn">This station is marked as not in service.</div>'
-    actions = tour_button(card.get("tour_url"))
+    actions = tour_button(card)
+    lead = tour_lead_html(card, res.get("place", ""))
+    if not card.get("tour_from"):
+        # this station is not in the 360° tour: lead to the closest station that is
+        alt = next((c for c in res["stations"][1:] if c.get("tour_from") and c.get("tour_url")), None)
+        if alt:
+            actions = (f'<a class="yb-btn" href="{esc(alt["tour_url"])}" target="_blank" rel="noopener">{TOUR_SVG} '
+                       f'Walk to {esc(nice(alt["name"]))} in 360° ↗</a>')
+            lead = ('<div class="yb-updated yb-lead">This station is not in the 360° tour yet; the tour leads to '
+                    f'{esc(nice(alt["name"]))}, {alt.get("distance_m")} m away. '
+                    f'{tour_lead_text(alt, res.get("place", ""))}</div>')
     if _updated(card.get("updated")):
         actions += f'<span class="yb-updated">Live data updated {_updated(card["updated"])}</span>'
     return (f'<div class="yb-hero-left"><div class="yb-kicker">➤ Closest by distance</div>'
             f'<div class="yb-station">{esc(nice(card["name"]))}</div>'
             f'<div class="yb-zh">{esc(card.get("name_zh"))} · Station {esc(card["sno"])}</div>'
             f'{dist_html}<div class="yb-addr">{esc(_address(meta))}</div>{stats}{warn}'
-            f'<div class="yb-actions">{actions}</div></div>')
+            f'<div class="yb-actions">{actions}</div>{lead}</div>')
 
 
 def map_legend():
@@ -386,8 +423,9 @@ def other_stations(cards):
         total = (c["bikes"] + c["free_docks"]) if live else 0
         fill = 100 * c["bikes"] / total if live and total else 0
         dist = f'<span class="yb-chip-m">{c["distance_m"]} m</span>' if c.get("distance_m") is not None else ""
-        tour = (f' · <a href="{esc(c["tour_url"])}" target="_blank" rel="noopener">360° Tour ↗</a>'
-                if c.get("tour_url") else "")
+        tour = (f' · <a href="{esc(c["tour_url"])}" target="_blank" rel="noopener"'
+                f' title="{esc(" → ".join(c.get("tour_path") or []))}">'
+                f'{"Walk there in 360°" if c.get("tour_from") else "360° Tour"} ↗</a>' if c.get("tour_url") else "")
         items.append(
             f'<div class="yb-other"><div class="yb-other-head"><div><b>{esc(nice(c["name"]))}</b>'
             f'<div class="yb-zh">{esc(c.get("name_zh"))} · #{esc(c["sno"])}</div></div>{dist}</div>'
@@ -450,7 +488,7 @@ def answer_chips(res):
 
 
 def place_card_html(card, kicker="Place in your question"):
-    """Names of the place and its nearest 360° view."""
+    """The place asked about: names, where it is, what is inside and its view in the 360° tour."""
     sub = " · ".join(x for x in (card.get("name_zh"), card.get("code"),
                                  f"no. {card['map_no']} on the campus map" if card.get("map_no") else "") if x)
     pano = card.get("panorama")
@@ -461,11 +499,16 @@ def place_card_html(card, kicker="Place in your question"):
                 f'{TOUR_SVG} 360° view · coming soon</span>')
     else:
         view = ""
-    note = (f'<div class="yb-updated" style="margin-top:8px">Nearest 360° view: {esc(pano["name"])}, about '
-            f'{pano["metres"]} m away.</div>' if pano else
-            '<div class="yb-updated" style="margin-top:8px">No 360° view near this place yet.</div>')
+    about = f'<div class="yb-place-about">{esc(card["about"])}</div>' if card.get("about") else ""
+    units = card.get("units") or []
+    if units:
+        shown = units[:4]
+        more = f" and {len(units) - len(shown)} more" if len(units) > len(shown) else ""
+        about += (f'<div class="yb-place-units"><b>Inside:</b> {esc(" · ".join(shown))}{esc(more)}</div>')
+    note = (f'<div class="yb-updated" style="margin-top:8px">360° tour: {esc(pano["name"])} ({esc(pano["id"])})</div>'
+            if pano else '<div class="yb-updated" style="margin-top:8px">No 360° view near this place yet.</div>')
     return (f'<div class="yb-place"><div class="yb-kicker2">◎ {esc(kicker)}</div>'
-            f'<div class="yb-place-name">{esc(card["name"])}</div><div class="yb-zh">{esc(sub)}</div>'
+            f'<div class="yb-place-name">{esc(card["name"])}</div><div class="yb-zh">{esc(sub)}</div>{about}'
             + (f'<div class="yb-actions">{view}</div>' if view else "") + f'{note}</div>')
 
 
@@ -493,10 +536,23 @@ def route_html(walk, nodes):
             steps.append(f'<span class="{cls}" title="{esc(nid or "")}">{esc(label)}{tag}{dist}</span>')
     arrow = '<span class="yb-arrow">→</span>'
     body = f'<div class="yb-steps">{arrow.join(steps)}</div>'
-    note = "Along the paths photographed for the 360° tour; steps marked 360° open that view once the tour is linked."
+    note = "Along the paths photographed for the 360° tour; a step marked 360° opens that view."
     if walk.get("off_route"):
         note += " " + " and ".join(walk["off_route"]) + " is off those paths, so that part is a straight-line estimate."
-    return f'<div class="yb-route">{head}{body}<div class="yb-updated">{esc(note)}</div></div>'
+    # the 360° walk opens at the first panorama of the route (next to the start place) and the
+    # user follows the hotspot arrows along walk["nodes"]
+    path = walk.get("nodes") or []
+    first = nodes.get(path[0]) if path else None
+    lead = ""
+    if first and first.get("tour_url"):
+        clicks = len(path) - 1
+        follow = (f' Follow the arrows: {" → ".join(esc(n) for n in path)} ({clicks} click{"s" if clicks != 1 else ""}).'
+                  if clicks else "")
+        lead = (f'<div class="yb-actions"><a class="yb-btn" href="{esc(first["tour_url"])}" target="_blank" '
+                f'rel="noopener">{TOUR_SVG} Walk it in 360° ↗</a></div>'
+                f'<div class="yb-updated yb-lead">The 360° tour opens at {esc(first["name"])} ({esc(path[0])}), '
+                f'next to {esc(walk["origin"])}.{follow}</div>')
+    return f'<div class="yb-route">{head}{body}<div class="yb-updated">{esc(note)}</div>{lead}</div>'
 
 
 def answer_title(res, text):

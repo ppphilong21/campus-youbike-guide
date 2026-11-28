@@ -2,8 +2,8 @@
 
 Nodes are the 13 panoramas of Tour A (data/walkway_nodes.csv), edges are its hotspot links
 (data/walkway_edges.csv), weighted by straight-line metres between the two panoramas. A
-place is joined to the graph at its nearest panorama; a route is the shortest path between
-the panoramas nearest to the two ends (Dijkstra). Everything here is computed by code: the
+place is joined to the graph at the panorama that shows it (the `shows` column), else at its
+nearest panoramas; a route is the shortest path between the two ends (Dijkstra). Everything here is computed by code: the
 language model only puts the route into words.
 
 The graph covers the two photographed routes (Main Gate -> Library -> Back Gate, and
@@ -24,6 +24,7 @@ SNAP_MAX = 150      # a place farther than this from every panorama is "off the 
 NEAR_360 = 60       # a panorama within this distance shows the place (the "See it in 360°" button)
 SAME_SPOT = 80      # two places closer than this need no route
 WALK_M_PER_MIN = 80
+PREFER_SHOWN = 40   # metres a route may add to start/end at the panorama that shows the place
 
 ROUTE_WORDS = re.compile(
     r"\bhow (do|can|should) (i|we) (get|go|walk)\b|\bget (from|to)\b|\bwalk(ing)? (from|to|there)\b|\bway (to|from)\b"
@@ -75,8 +76,60 @@ def nearest_panorama(point, within=NEAR_360):
     return None
 
 
+def shown_at(place):
+    """Ids of the panoramas whose `shows` column names this place."""
+    pid = place.get("id")
+    return {nid for nid, n in graph()[0].items() if pid and pid in (n.get("shows") or "").split("|")}
+
+
+def snap_nodes(place):
+    """[(metres, node id)] where a place may join the walkway graph: its 2 nearest panoramas and
+    the panoramas that show it."""
+    near = nearest_nodes(place)
+    seen = {nid for _, nid in near}
+    return near + sorted((dist(place, graph()[0][nid]), nid) for nid in shown_at(place) if nid not in seen)
+
+
+def panorama_for(place):
+    """The panorama to open for a place: (node, metres) or None.
+
+    A panorama whose `shows` column names the place comes first (the one the tour was planned
+    to show it from); otherwise the nearest panorama within NEAR_360 m.
+    """
+    pid = place.get("id")
+    named = [n for n in graph()[0].values() if pid and pid in (n.get("shows") or "").split("|")]
+    if named:
+        n = min(named, key=lambda n: dist(place, n))
+        return n, round(dist(place, n))
+    return nearest_panorama(place)
+
+
 def station_node(sno):
     return next((n for n in graph()[0].values() if n.get("sno") == str(sno)), None)
+
+
+def tour_start(place, within=SNAP_MAX):
+    """The panorama where the 360° tour should start for a question about this place: the one
+    that shows it (panorama_for), else the nearest one within `within` metres. None if too far."""
+    pano = panorama_for(place)
+    if pano:
+        return pano[0]
+    near = nearest_nodes(place, 1)
+    return graph()[0][near[0][1]] if near and near[0][0] <= within else None
+
+
+def tour_path(start_id, sno):
+    """Panorama ids from start_id to the panorama taken at station `sno` (fewest metres), or None."""
+    end = station_node(sno)
+    if not end or start_id not in graph()[0]:
+        return None
+    dists, prev = _dijkstra(start_id)
+    if end["id"] not in dists:
+        return None
+    path = [end["id"]]
+    while path[-1] != start_id:
+        path.append(prev[path[-1]])
+    return path[::-1]
 
 
 def _dijkstra(src):
@@ -113,21 +166,25 @@ def route(origin, dest):
     if direct <= SAME_SPOT:
         return straight()
     best = None
-    for d0, s in nearest_nodes(origin):
+    shown0, shown1 = shown_at(origin), shown_at(dest)
+    for d0, s in snap_nodes(origin):
         dists, prev = _dijkstra(s)
-        for d1, t in nearest_nodes(dest):
+        for d1, t in snap_nodes(dest):
             if t not in dists:
                 continue
             total = d0 + dists[t] + d1
-            if best is None or total < best[0]:
+            # a panorama that shows the place is preferred when it costs at most PREFER_SHOWN m more,
+            # so the 360° walk starts (and ends) with a view of the places in the question
+            cost = total - PREFER_SHOWN * ((s in shown0) + (t in shown1))
+            if best is None or cost < best[0]:
                 path, n = [t], t
                 while n != s:
                     n = prev[n]
                     path.append(n)
-                best = (total, path[::-1], d0, d1)
+                best = (cost, total, path[::-1], d0, d1)
     if best is None:
         return None
-    total, path, d0, d1 = best
+    _, total, path, d0, d1 = best
     if direct < 250 and total > 1.8 * direct:   # the paths make a long detour: walking straight is better
         return dict(straight(), detour=True)
     # stops: (label, node id or None, metres from the previous stop); very short steps are merged

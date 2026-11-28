@@ -1,14 +1,14 @@
-id,name,where,map_x,map_y,lat,lng,coord_source,sno,tour_url
-A01,Main Gate,"just inside the Main Gate, on the entrance path",1140,1250,25.013674,121.540645,map,,
-A02,Main Gate station,"on Keelung Road in front of T1 and RB, by the docks",785,1319,25.014510,121.541420,api,500101024,
-A03,Library,"on the entrance path in front of the Library, near the Huaxia shuttle stop",1045,1160,25.013657,121.541046,map,,
-A04,"AD, west side",on the walkway between T4 and the AD lawn,1020,1020,25.013425,121.541387,map,,
-A05,Central lawn,in the middle of the lawn between E1 and MA,1135,800,25.012801,121.541566,map,,
-A06,Path to the Back Gate,at the north end of the lawn beside the 2nd Student Dormitory,1225,620,25.012297,121.541723,map,,
-A07,Back Gate (Haoyang side),just inside the Back Gate on Alley 68,1240,505,25.012046,121.541921,map,,
-A08,Back Gate station,"just outside the Back Gate on Alley 68, by the docks",1360,470,25.011820,121.541650,api,500101027,
-A09,South of T4,"between the Library, the Auditorium and T4",900,1080,25.013744,121.541542,map,,
-A10,West end of T4,on the path north of the tennis court,650,985,25.013978,121.542312,map,,
-A11,By the courts,on the path between the volleyball and basketball courts,420,985,25.014365,121.542843,map,,
-A12,Lane 155 entrance,at the Lane 155 parking lot entrance with the security post beside TR,205,1020,25.014795,121.543268,map,,
-A13,Cancer Center station,"on Lane 155 opposite the Gymnasium and IA, by the docks",125,823,25.014260,121.543820,api,500101028,
+id,name,where,map_x,map_y,lat,lng,coord_source,sno,tour_url,shows
+A01,Main Gate,"just inside the Main Gate, on the entrance path",1140,1250,25.013674,121.540645,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=1,gate_main|security_main|ib
+A02,Main Gate station,"on Keelung Road in front of T1 and RB, by the docks",785,1319,25.014510,121.541420,api,500101024,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=2,t1|rb|scooter_front
+A03,Library,"on the entrance path in front of the Library, near the Huaxia shuttle stop",1045,1160,25.013657,121.541046,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=3,library|shuttle_huaxia
+A04,"AD, west side",on the walkway between T4 and the AD lawn,1020,1020,25.013425,121.541387,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=4,ad
+A05,Central lawn,in the middle of the lawn between E1 and MA,1135,800,25.012801,121.541566,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=5,e1|ma
+A06,Path to the Back Gate,at the north end of the lawn beside the 2nd Student Dormitory,1225,620,25.012297,121.541723,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=6,dorm2
+A07,Back Gate (Haoyang side),just inside the Back Gate on Alley 68,1240,505,25.012046,121.541921,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=7,gate_back|haoyang
+A08,Back Gate station,"just outside the Back Gate on Alley 68, by the docks",1360,470,25.011820,121.541650,api,500101027,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=8,ee|go_station|scooter_back
+A09,South of T4,"between the Library, the Auditorium and T4",900,1080,25.013744,121.541542,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=9,t4|au
+A10,West end of T4,on the path north of the tennis court,650,985,25.013978,121.542312,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=10,tennis|caf1|post
+A11,By the courts,on the path between the volleyball and basketball courts,420,985,25.014365,121.542843,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=11,volleyball|basketball|ceremonial_stand
+A12,Lane 155 entrance,at the Lane 155 parking lot entrance with the security post beside TR,205,1020,25.014795,121.543268,map,,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=12,tr|parking_ln155|security_ln155
+A13,Cancer Center station,"on Lane 155 opposite the Gymnasium and IA, by the docks",125,823,25.014260,121.543820,api,500101028,https://livetour.istaging.com/86265848-08c9-4adf-a1e2-3fb985c62184?index=13,gym|ia|ntu_cancer
